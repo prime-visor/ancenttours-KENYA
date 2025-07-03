@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Holiday Packages</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="picha/logo-removebg-preview.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --accent: #22c55e;
+            --bg: #f3f4f6;
+            --card-bg: #fff;
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .fade-in {
+            animation: fadeIn 1.2s cubic-bezier(.4,0,.2,1) both;
+        }
+        #loader-wrapper {
+            position: fixed;
+            inset: 0;
+            background: #fff;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid var(--primary);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg);}
+        }
+        .item img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+        }
+        #packages {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media (min-width: 1024px) {
+            #packages {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        #bookingForm {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Loader -->
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+    </div>
+    <script>
+        window.addEventListener("load", () => {
+            document.getElementById("loader-wrapper").style.display = "none";
+        });
+    </script>
+    <div class="container mx-auto py-8 px-4">
+        <button onclick="window.location.href='index.html'" class="mb-6 bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </button>
+        <h1 class="text-4xl font-extrabold mb-10 text-center text-gray-800 tracking-tight fade-in">Holiday Packages</h1>
+        <section class="space-y-8" id="packages">
+            <!-- Package Cards -->
+            <!-- Repeat for each package, add fade-in class for animation -->
+            <!-- Example for one package: -->
+            <div class="item bg-white rounded-xl shadow-md overflow-hidden transition duration-300 hover:shadow-xl fade-in" data-name="holiday: Maasai Mara Safari" data-charges="$650" data-image="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80">
+                <img src="picha/IMG-20250202-WA0022.jpg" alt="Maasai Mara Safari">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-gray-800">Maasai Mara Safari</h3>
+                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-semibold">Wildlife</span>
+                    </div>
+                    <div class="flex items-center text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        <span class="ml-2 text-gray-700 text-sm">4.8 (120 reviews)</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">3-day safari adventure in the world-famous Maasai Mara, including game drives and cultural visits.</p>
+                    <div class="mb-4">
+                        <h4 class="font-semibold text-gray-800 mb-2">Highlights:</h4>
+                        <ul class="text-gray-600 text-sm space-y-1">
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Big Five game drives</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Maasai village visit</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> All meals included</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Luxury tented camp</li>
+                        </ul>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="text-green-600 font-bold text-xl">$650</span>
+                            <span class="text-gray-500 text-sm">/person</span>
+                        </div>
+                        <button onclick="openForm(this)" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition font-semibold flex items-center gap-2">
+                            <i class="fab fa-whatsapp"></i> Book via WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="item bg-white rounded-xl shadow-md overflow-hidden transition duration-300 hover:shadow-xl fade-in" data-name="holiday: Diani Beach Escape" data-charges="$480" data-image="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80">
+                <img src="picha/IMG-20250202-WA0023.jpg" alt="Diani Beach Escape">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-gray-800">Diani Beach Escape</h3>
+                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold">Beach</span>
+                    </div>
+                    <div class="flex items-center text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span class="ml-2 text-gray-700 text-sm">5.0 (98 reviews)</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">4 days of sun, sand, and sea at the award-winning Diani Beach, including snorkeling and dolphin tours.</p>
+                    <div class="mb-4">
+                        <h4 class="font-semibold text-gray-800 mb-2">Highlights:</h4>
+                        <ul class="text-gray-600 text-sm space-y-1">
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Oceanfront resort</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Snorkeling trip</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Dolphin watching</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> All meals included</li>
+                        </ul>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="text-green-600 font-bold text-xl">$480</span>
+                            <span class="text-gray-500 text-sm">/person</span>
+                        </div>
+                        <button onclick="openForm(this)" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition font-semibold flex items-center gap-2">
+                            <i class="fab fa-whatsapp"></i> Book via WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="item bg-white rounded-xl shadow-md overflow-hidden transition duration-300 hover:shadow-xl fade-in" data-name="holiday: Mount Kenya Trek" data-charges="$720" data-image="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=800&q=80">
+                <img src="picha/IMG-20250202-WA0024.jpg" alt="Mount Kenya Trek">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-gray-800">Mount Kenya Trek</h3>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Adventure</span>
+                    </div>
+                    <div class="flex items-center text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        <span class="ml-2 text-gray-700 text-sm">4.7 (65 reviews)</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">5-day guided trek to Point Lenana, Mount Kenya, with all park fees, meals, and porters included.</p>
+                    <div class="mb-4">
+                        <h4 class="font-semibold text-gray-800 mb-2">Highlights:</h4>
+                        <ul class="text-gray-600 text-sm space-y-1">
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Professional guides</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> All park fees</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Meals & porters</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Camping equipment</li>
+                        </ul>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="text-green-600 font-bold text-xl">$720</span>
+                            <span class="text-gray-500 text-sm">/person</span>
+                        </div>
+                        <button onclick="openForm(this)" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition font-semibold flex items-center gap-2">
+                            <i class="fab fa-whatsapp"></i> Book via WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="item bg-white rounded-xl shadow-md overflow-hidden transition duration-300 hover:shadow-xl fade-in" data-name="holiday: Lamu Island Retreat" data-charges="$530" data-image="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=800&q=80">
+                <img src="picha/IMG-20250202-WA0025.jpg" alt="Lamu Island Retreat">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-gray-800">Lamu Island Retreat</h3>
+                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs font-semibold">Culture</span>
+                    </div>
+                    <div class="flex items-center text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        <span class="ml-2 text-gray-700 text-sm">5.0 (44 reviews)</span>
+                    </div>
+                    <p class="text-gray-600 mb-4">3 nights in historic Lamu, with dhow cruise, Swahili cuisine, and guided Old Town tour.</p>
+                    <div class="mb-4">
+                        <h4 class="font-semibold text-gray-800 mb-2">Highlights:</h4>
+                        <ul class="text-gray-600 text-sm space-y-1">
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Dhow sunset cruise</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Swahili cuisine</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Old Town tour</li>
+                            <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i> Boutique hotel</li>
+                        </ul>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <span class="text-green-600 font-bold text-xl">$530</span>
+                            <span class="text-gray-500 text-sm">/person</span>
+                        </div>
+                        <button onclick="openForm(this)" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition font-semibold flex items-center gap-2">
+                            <i class="fab fa-whatsapp"></i> Book via WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- WhatsApp Booking Form -->
+        <div id="bookingForm" class="fixed top-1/4 left-1/2 transform -translate-x-1/2 bg-white rounded-xl shadow-2xl p-8 z-50 w-full max-w-md border border-gray-200">
+            <h3 class="text-2xl font-bold mb-4 text-green-700 text-center">Enter Your Details</h3>
+            <div class="space-y-4">
+                <input type="text" id="clientName" placeholder="Your Name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition" />
+                <input type="text" id="clientPhone" placeholder="Your Phone Number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition" />
+                <input type="email" id="clientEmail" placeholder="Your Email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition" />
+            </div>
+            <div class="flex justify-between mt-6">
+                <button onclick="sendWhatsApp()" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition flex items-center gap-2">
+                    <i class="fab fa-whatsapp"></i> Send via WhatsApp
+                </button>
+                <button onclick="closeForm()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold px-6 py-2 rounded-lg shadow transition">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Senior developer: Use IIFE to avoid polluting global scope
+        (() => {
+            let selectedItem = {};
+
+            window.openForm = (button) => {
+                const itemDiv = button.closest('.item');
+                selectedItem = {
+                    name: itemDiv.dataset.name,
+                    charges: itemDiv.dataset.charges,
+                    image: itemDiv.dataset.image
+                };
+                document.getElementById('bookingForm').style.display = 'block';
+                // Optionally, scroll to form for accessibility
+                setTimeout(() => {
+                    document.getElementById('clientName').focus();
+                }, 100);
+            };
+
+            window.closeForm = () => {
+                document.getElementById('bookingForm').style.display = 'none';
+                // Clear fields for next use
+                document.getElementById('clientName').value = '';
+                document.getElementById('clientPhone').value = '';
+                document.getElementById('clientEmail').value = '';
+            };
+
+            window.sendWhatsApp = () => {
+                const name = document.getElementById('clientName').value.trim();
+                const phone = document.getElementById('clientPhone').value.trim();
+                const email = document.getElementById('clientEmail').value.trim();
+
+                if (!name || !phone || !email) {
+                    alert("Please fill in all fields.");
+                    return;
+                }
+
+                const adminPhone = "254785851808";
+                const message = `*New Booking Request*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Email:* ${email}\n\n*Item:* ${selectedItem.name}\n*Charges:* ${selectedItem.charges}\n*Image:* ${selectedItem.image}`;
+                const whatsappURL = `https://wa.me/${adminPhone}?text=${encodeURIComponent(message)}`;
+                window.open(whatsappURL, '_blank');
+                window.closeForm();
+            };
+
+            // Close form on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    window.closeForm();
+                }
+            });
+
+            // Hide loader if JS fails to remove it (failsafe)
+            setTimeout(() => {
+                const loader = document.getElementById("loader-wrapper");
+                if (loader) loader.style.display = "none";
+            }, 4000);
+        })();
+    </script>
+</body>
+</html>

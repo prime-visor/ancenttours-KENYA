@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ancient Tours & Hotels Kenya - ChatBot</title>
+    <style>
+        :root {
+            --primary: #2d3e50;
+            --accent: #4e73df;
+            --bg: #f4f6fa;
+            --bot-bg: #e9ecf3;
+            --user-bg: #d1e7fd;
+            --border: #e0e6ed;
+            --radius: 12px;
+            --shadow: 0 6px 24px rgba(44,62,80,0.12);
+        }
+        body {
+            font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+            background: var(--bg);
+            margin: 0;
+            padding: 0;
+        }
+        #chat-icon {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            background: var(--accent);
+            color: #fff;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: background 0.2s;
+            z-index: 999;
+        }
+        #chat-icon:hover {
+            background: #3656b3;
+        }
+        #chat-box {
+            position: fixed;
+            bottom: 110px;
+            right: 32px;
+            width: 340px;
+            max-height: 480px;
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 999;
+            border: 1px solid var(--border);
+        }
+        #chat-header {
+            background: var(--primary);
+            color: #fff;
+            padding: 16px;
+            font-weight: 600;
+            font-size: 17px;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+        }
+        #chat-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            font-size: 15px;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .message {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 18px;
+            line-height: 1.5;
+            word-break: break-word;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.04);
+        }
+        .message.bot {
+            align-self: flex-start;
+            background: var(--bot-bg);
+            color: #222;
+            border-bottom-left-radius: 4px;
+        }
+        .message.user {
+            align-self: flex-end;
+            background: var(--user-bg);
+            color: #0a5caa;
+            border-bottom-right-radius: 4px;
+            text-align: right;
+        }
+        #chat-input {
+            display: flex;
+            border-top: 1px solid var(--border);
+            background: #fff;
+        }
+        #chat-input input {
+            flex: 1;
+            padding: 14px 12px;
+            border: none;
+            font-size: 15px;
+            background: transparent;
+            outline: none;
+        }
+        #chat-input button {
+            padding: 0 22px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 0 0 var(--radius) 0;
+            transition: background 0.2s;
+        }
+        #chat-input button:hover {
+            background: #3656b3;
+        }
+        #responses-list {
+            display: none;
+            font-size: 13px;
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 18px;
+            margin: 10px;
+            max-height: 320px;
+            overflow: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        .admin-btn {
+            position: fixed;
+            top: 18px;
+            right: 32px;
+            z-index: 1000;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+            transition: background 0.2s;
+        }
+        .admin-btn:hover {
+            background: var(--accent);
+        }
+        a {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        @media (max-width: 500px) {
+            #chat-box {
+                width: 98vw;
+                right: 1vw;
+                bottom: 1vw;
+                max-height: 80vh;
+            }
+            #chat-icon {
+                right: 1vw;
+                bottom: 1vw;
+            }
+            .admin-btn {
+                right: 1vw;
+                top: 1vw;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div id="chat-icon" title="Chat with us">💬</div>
+
+<div id="chat-box">
+    <div id="chat-header">Ancient Tours & Hotels Kenya Chat</div>
+    <div id="chat-messages">
+        <div class="message bot">Karibu! Welcome to Ancient Tours & Hotels Kenya. How can we assist you today?</div>
+    </div>
+    <div id="chat-input">
+        <input type="text" id="userInput" placeholder="Type a message..." autocomplete="off" />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<!-- <button class="admin-btn" onclick="toggleResponses()">Show Responses</button>-->
+<div id="responses-list"></div>
+
+<script>
+    // --- Chatbot Responses ---
+    const responses = [
+        { keywords: ["kenya", "kenyan"], reply: "We offer amazing tours and hotel packages across Kenya, including Nairobi, Mombasa, Maasai Mara, and more." },
+        { keywords: ["hotel", "accommodation"], reply: "Our hotels in Kenya offer comfort and convenience for your stay. Let us know your preferred location." },
+        { keywords: ["nairobi"], reply: "Discover Nairobi's top attractions with our guided tours and enjoy a relaxing stay at our partner hotels." },
+        { keywords: ["maasai mara", "safari"], reply: "Experience the Maasai Mara safari with Ancient Tours & Hotels Kenya. We arrange game drives and luxury lodges." },
+        { keywords: ["mombasa", "coast"], reply: "Relax at the Kenyan coast! We offer tours and hotel bookings in Mombasa, Diani, and Malindi." },
+        { keywords: ["lake nakuru"], reply: "Visit Lake Nakuru National Park, famous for flamingos and rhinos. We provide tours and hotel stays nearby." },
+        { keywords: ["amboseli"], reply: "Explore Amboseli National Park and enjoy views of Mt. Kilimanjaro. Ask about our tour and hotel packages." },
+        { keywords: ["mount kenya"], reply: "Climb or tour Mount Kenya with our expert guides. Accommodation and transport included." },
+        { keywords: ["tsavo"], reply: "Discover Tsavo East and West National Parks with our all-inclusive tours and comfortable hotels." },
+        { keywords: ["booking", "book"], reply: "You can book your Kenya tour or hotel directly with us. Just let us know your dates and preferences." },
+        { keywords: ["airport transfer"], reply: "We provide airport transfers to and from your hotel in Kenya." },
+        { keywords: ["price", "cost"], reply: "Our prices are competitive and depend on your chosen tour or hotel. Contact us for a quote." },
+        { keywords: ["family"], reply: "We offer family-friendly tours and hotels in Kenya. Let us know your group size and interests." },
+        { keywords: ["group"], reply: "Group discounts are available for tours and hotel bookings in Kenya." },
+        { keywords: ["private"], reply: "Private tours and exclusive hotel stays can be arranged for you in Kenya." },
+        { keywords: ["custom"], reply: "We can customize your Kenya tour and hotel package to fit your needs." },
+        { keywords: ["support"], reply: "Our support team is available 24/7 for any questions about tours or hotels in Kenya." },
+        { keywords: ["contact"], reply: "Contact us via chat, email, or phone for more information about Ancient Tours & Hotels Kenya." },
+        { keywords: ["hello", "hi"], reply: "Hello! 👋 Welcome to Ancient Tours & Hotels Kenya. How can we help you?" },
+        { keywords: ["thanks", "thank you"], reply: "You're welcome! Let us know if you have more questions about tours or hotels in Kenya." },
+        { keywords: ["goodbye", "bye"], reply: "Goodbye! We hope to host you soon in Kenya with Ancient Tours & Hotels." },
+        { keywords: ["human", "real person"], reply: "I'm GitHub Copilot, a computer bot here to assist you with information about Ancient Tours & Hotels Kenya. If you need a human agent, please let us know and we will connect you." },
+        { keywords: ["where are you", "location", "are you in kenya"], reply: "I'm a virtual assistant (computer bot) and not physically located in Kenya, but I can help you with all your Kenya travel and hotel questions!" },
+        { keywords: ["who are you", "your name"], reply: "I'm GitHub Copilot, a computer bot created to help you with Ancient Tours & Hotels Kenya. How can I assist you today?" },
+        { keywords: ["how are you"], reply: "I'm just a computer bot, but I'm here and ready to help you with your travel needs!" },
+        { keywords: ["can you help", "help me"], reply: "Absolutely! Please tell me what you need help with regarding tours or hotels in Kenya." },
+        { keywords: ["agent", "speak to someone", "talk to human"], reply: "If you would like to speak to a human agent, please let us know your request and we will connect you as soon as possible." },
+        { keywords: ["hours", "open", "opening times"], reply: "Our support is available 24/7 online. For in-person visits, please contact us for office hours." },
+        { keywords: ["payment", "pay", "methods"], reply: "We accept various payment methods including mobile money, credit cards, and bank transfers. Let us know your preference." },
+        { keywords: ["refund", "cancel", "cancellation"], reply: "For cancellations or refunds, please provide your booking details and our team will assist you." },
+        { keywords: ["my details", "here are my details", "book for me", "booking details"], reply: "Thank you for sharing your details. For your security, please contact us directly to complete your booking. Visit our booking page: <a href='https://ancienttourskenya.com/booking' target='_blank'>Book Now</a> or email us at info@ancienttourskenya.com." },
+        { keywords: ["how to book", "booking procedure", "how do i book"], reply: "To book with us: 1) Visit our booking page: <a href='https://ancienttourskenya.com/booking' target='_blank'>Book Now</a>. 2) Fill in your details and preferences. 3) Submit the form. 4) Our team will contact you to confirm your booking and payment. You can also email us at info@ancienttourskenya.com for assistance." }
+    ];
+
+    const fallbackResponses = [
+        "Thank you for your message! We'll get back to you shortly.",
+        "Sorry, I didn't understand that. Could you please rephrase?",
+        "Our team will respond to your query about tours and hotels in Kenya soon.",
+        "Please provide more details so I can assist you better.",
+        "Let me know if you have any questions about Kenya tours or hotels.",
+        "I'm here to help with anything related to tours and hotels in Kenya!"
+    ];
+
+    // --- DOM Elements ---
+    const chatIcon = document.getElementById('chat-icon');
+    const chatBox = document.getElementById('chat-box');
+    const chatMessages = document.getElementById('chat-messages');
+    const userInput = document.getElementById('userInput');
+
+    // --- Chat Icon Toggle ---
+    chatIcon.onclick = () => {
+        chatBox.style.display = chatBox.style.display === 'none' || chatBox.style.display === '' ? 'flex' : 'none';
+        if (chatBox.style.display === 'flex') {
+            userInput.focus();
+        }
+    };
+
+    // --- Send Message ---
+    function sendMessage() {
+        const msg = userInput.value.trim();
+        if (!msg) return;
+
+        appendMessage('user', msg);
+        userInput.value = '';
+        userInput.focus();
+
+        setTimeout(() => {
+            const reply = getBotReply(msg);
+            appendMessage('bot', reply);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 400);
+    }
+
+    // --- Append Message ---
+    function appendMessage(sender, text) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${sender}`;
+        if (sender === 'bot' && /<a\s/i.test(text)) {
+            msgDiv.innerHTML = text;
+        } else {
+            msgDiv.textContent = text;
+        }
+        chatMessages.appendChild(msgDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // --- Bot Reply Logic ---
+    function getBotReply(message) {
+        const lowerMsg = message.toLowerCase();
+        for (const resp of responses) {
+            for (const kw of resp.keywords) {
+                if (lowerMsg.includes(kw)) return resp.reply;
+            }
+        }
+        return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+    }
+
+    // --- Show All Responses (Admin) ---
+    function toggleResponses() {
+        const el = document.getElementById('responses-list');
+        if (el.style.display === 'block') {
+            el.style.display = 'none';
+            return;
+        }
+        let html = "<b>All Bot Responses:</b><ul style='padding-left:18px;'>";
+        for (const resp of responses) {
+            html += `<li style="margin-bottom:10px;"><b>Keywords:</b> ${resp.keywords.join(', ')}<br><b>Reply:</b> ${resp.reply}</li>`;
+        }
+        html += "</ul>";
+        el.innerHTML = html;
+        el.style.display = 'block';
+    }
+
+    // --- Enter Key Sends Message ---
+    userInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+    // --- Accessibility: Focus on input when chat opens ---
+    if (window.matchMedia('(max-width: 500px)').matches) {
+        chatBox.style.width = '98vw';
+    }
+</script>
+<script>
+function sendMessage() {
+    const msg = userInput.value.trim();
+    if (!msg) return;
+
+    appendMessage('user', msg);
+    userInput.value = '';
+    userInput.focus();
+
+    // Show typing indicator
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message bot';
+    typingDiv.id = 'typing-indicator';
+    typingDiv.textContent = 'typing...';
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    setTimeout(() => {
+        // Remove typing indicator
+        const typing = document.getElementById('typing-indicator');
+        if (typing) typing.remove();
+
+        const reply = getBotReply(msg);
+        appendMessage('bot', reply);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }, 1300); // 1.2 seconds delay
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,826 @@
+<!--
+Your HTML file contains two full HTML documents merged together, which is invalid. 
+Below is a cleaned-up, styled, and visually appealing single-page version.
+It uses Tailwind CSS for layout, color, and spacing, and custom styles for the slideshow and highlights.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenya Maasai Mara Expedition - Ancent Tours & Hotels</title>
+    <link rel="icon" href="picha/logo-removebg-preview.png" type="image/x-icon">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        section{ background: #f9fafb; padding: 2rem; border-radius: 1rem; margin-bottom: 2rem; }
+        html { scroll-behavior: smooth; }
+        .slideshow-container { position: relative; border-radius: 1rem; overflow: hidden; }
+        .slide { display: none; }
+        .slide.active-slide { display: block; }
+        .prev, .next {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(34,197,94,0.8); color: #fff; border: none;
+            border-radius: 9999px; width: 2.5rem; height: 2.5rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 10; font-size: 1.5rem;
+            transition: background 0.2s;
+        }
+        .prev:hover, .next:hover { background: #16a34a; }
+        .prev { left: 1rem; }
+        .next { right: 1rem; }
+        .dot { height: 12px; width: 12px; margin: 0 4px; background: #bbb; border-radius: 50%; display: inline-block; cursor: pointer; }
+        .dot.active { background: #22c55e; }
+        .highlight i { font-size: 2rem; color: #22c55e; margin-bottom: 0.5rem; }
+        .itinerary-step { border-left: 4px solid #22c55e; background: #f0fdf4; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem; }
+        .rates-table th, .rates-table td { padding: 0.75rem; border: 1px solid #e5e7eb; }
+        .rates-table th { background: #f0fdf4; color: #22c55e; }
+        .book-btn { background: #22c55e; color: #fff; border-radius: 9999px; padding: 0.5rem 1.5rem; font-weight: 600; transition: background 0.2s; }
+        .book-btn:hover { background: #16a34a; }
+        .footer { background: #1e293b; color: #fff; }
+        /* Loader */
+        #loader-wrapper { position: fixed; top:0; left:0; width:100%; height:100%; background:#fff; z-index:9999; display:flex; align-items:center; justify-content:center; }
+        #loader { border:8px solid #f3f3f3; border-top:8px solid #22c55e; border-radius:50%; width:60px; height:60px; animation:spin 1s linear infinite; }
+        @keyframes spin { 0% {transform:rotate(0deg);} 100% {transform:rotate(360deg);} }
+        @media (max-width: 900px) { .container { padding: 1rem; } }
+        @media (max-width: 700px) { .highlights { flex-direction: column; gap: 1rem; } }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Loader -->
+    <div id="loader-wrapper"><div id="loader"></div></div>
+    <script>
+        window.addEventListener("load", function() {
+            document.getElementById("loader-wrapper").style.display = "none";
+        });
+    </script>
+
+    <!-- Header -->
+     <!-- Google Translator <body> just after <header> -->
+<div id="google_translate_element" class="w-full flex justify-end p-2 bg-gray-100"></div>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+    }, 'google_translate_element');
+  }
+</script>
+
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="picha/logo-removebg-preview.png" loading="lazy" alt="Logo" class="w-12 h-12 mr-2">
+                <h1 class="text-2xl font-bold text-gray-800">Ancent<span class="text-green-600"> Tours & Hotels</span></h1>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="index.html" class="py-2 text-green-600 font-semibold">Home</a>
+                <a href="aboutus.html" class="py-2 text-gray-800 hover:text-green-600">About Us</a>
+                <a href="tour.html" class="py-2 text-gray-800 hover:text-green-600">Tours</a>
+                <a href="hotel.html" class="py-2 text-gray-800 hover:text-green-600">Hotels</a>
+                <a href="holiday.html" class="py-2 text-gray-800 hover:text-green-600">Holidays</a>
+                <a href="blogs.html" class="py-2 text-gray-800 hover:text-green-600">Blog</a>
+                <a href="contact.html" id="active" class="py-2 text-gray-800 hover:text-green-600">Contact</a>
+                <a href="gallery.html" class="py-2 text-gray-800 hover:text-green-600">Gallery</a>
+            </nav>
+            <button id="mobile-menu-button" class="md:hidden text-gray-800">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu flex-col bg-white py-4 px-4 shadow-lg hidden">
+            <a href="index.html" class="py-2 text-green-600 font-semibold">Home</a>
+            <a href="aboutus.html" class="py-2 text-gray-800 hover:text-green-600">About Us</a>
+            <a href="tour.html" class="py-2 text-gray-800 hover:text-green-600">Tours</a>
+            <a href="hotel.html" class="py-2 text-gray-800 hover:text-green-600">Hotels</a>
+            <a href="holiday.html" class="py-2 text-gray-800 hover:text-green-600">Holidays</a>
+            <a href="blogs.html" class="py-2 text-gray-800 hover:text-green-600">Blog</a>
+            <a href="contact.html" id="active" class="py-2 text-gray-800 hover:text-green-600">Contact</a>
+            <a href="gallery.html" class="py-2 text-gray-800 hover:text-green-600">Gallery</a>
+        </div>
+    </header>
+<!-- Navigation Tabs -->
+<nav class="flex flex-wrap justify-center gap-4 md:gap-8 bg-green-50 rounded-xl shadow mb-8 py-3 px-2 text-base font-semibold">
+    <a href="#overview" class="flex items-center gap-2 px-4 py-2 rounded-full transition text-green-700 bg-green-200 hover:bg-green-300 active">
+        <i class="fa fa-info-circle"></i> Overview
+    </a>
+    <a href="#gallery" class="flex items-center gap-2 px-4 py-2 rounded-full transition text-gray-700 hover:bg-green-200">
+        <i class="fa fa-image"></i> Gallery
+    </a>
+    <a href="#itinerary" class="flex items-center gap-2 px-4 py-2 rounded-full transition text-gray-700 hover:bg-green-200">
+        <i class="fa fa-route"></i> Itinerary
+    </a>
+    <a href="#rates" class="flex items-center gap-2 px-4 py-2 rounded-full transition text-gray-700 hover:bg-green-200">
+        <i class="fa fa-dollar-sign"></i> Rates & Bookings
+    </a>
+    <a href="#contact" class="flex items-center gap-2 px-4 py-2 rounded-full transition text-gray-700 hover:bg-green-200">
+        <i class="fa fa-envelope"></i> Contact
+    </a>
+</nav>
+
+<!-- Hero Section -->
+<section class="relative bg-gradient-to-r from-green-700 to-green-500 text-white text-center py-16 rounded-2xl shadow-lg mb-10">
+    <h2 class="text-4xl md:text-5xl font-extrabold mb-3 drop-shadow-lg">Kenya Maasai Mara Expedition</h2>
+    <p class="text-lg md:text-xl mb-5 font-medium">Discover the Heart of Africa. Witness the Great Migration.</p>
+    <div class="flex justify-center">
+        <span class="bg-green-800 px-8 py-3 rounded-full text-base font-semibold shadow-lg">5 Days Maasai Mara Safari Adventure</span>
+    </div>
+    <div class="mt-3 text-green-100 font-semibold tracking-wide">Kenya Wildlife & Culture Tours</div>
+</section>
+
+<!-- Main Container -->
+<div class="container max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl mt-10 mb-10 p-6 md:p-10">
+    <!-- Highlights -->
+    <section id="overview" class="mb-12">
+        <h3 class="text-2xl md:text-3xl font-bold text-green-600 mb-8 text-center">Why Choose This Expedition?</h3>
+        <div class="flex flex-wrap gap-6 highlights justify-center">
+            <div class="highlight flex-1 min-w-[220px] max-w-xs bg-green-50 rounded-xl p-8 text-center shadow-lg border border-green-100">
+                <i class="fa fa-binoculars mb-3 text-3xl text-green-500"></i>
+                <div class="font-semibold mt-2 mb-1 text-lg">Great Migration</div>
+                <div class="text-gray-600 text-sm">Experience the world-famous wildebeest migration and dramatic river crossings.</div>
+            </div>
+            <div class="highlight flex-1 min-w-[220px] max-w-xs bg-green-50 rounded-xl p-8 text-center shadow-lg border border-green-100">
+                <i class="fa fa-users mb-3 text-3xl text-green-500"></i>
+                <div class="font-semibold mt-2 mb-1 text-lg">Meet the Maasai</div>
+                <div class="text-gray-600 text-sm">Engage with Maasai warriors and learn about their unique culture and traditions.</div>
+            </div>
+            <div class="highlight flex-1 min-w-[220px] max-w-xs bg-green-50 rounded-xl p-8 text-center shadow-lg border border-green-100">
+                <i class="fa fa-tree mb-3 text-3xl text-green-500"></i>
+                <div class="font-semibold mt-2 mb-1 text-lg">Iconic Landscapes</div>
+                <div class="text-gray-600 text-sm">Explore the endless savannahs and acacia-dotted plains of the Mara.</div>
+            </div>
+        </div>
+    </section>
+<br><br><br><br>
+    <!-- Gallery -->
+    <section id="gallery" class="mb-12">
+        <h3 class="text-2xl md:text-3xl font-bold text-green-600 mb-8 text-center">Photo Gallery</h3>
+        <div class="slideshow-container mb-4 rounded-2xl shadow-lg overflow-hidden" id="slideshow">
+            <div class="slide active-slide">
+                <img src="picha/wild beast migration.jpg" alt="Maasai Mara 1" class="w-full h-64 md:h-80 object-cover rounded-xl transition-all duration-500">
+            </div>
+            <div class="slide">
+                <img src="picha/IMG-20250202-WA0022.jpg" alt="Maasai Mara 2" class="w-full h-64 md:h-80 object-cover rounded-xl transition-all duration-500">
+            </div>
+            <div class="slide">
+                <img src="tours images/mara.jpeg" alt="Maasai Mara 3" class="w-full h-64 md:h-80 object-cover rounded-xl transition-all duration-500">
+            </div>
+            <button class="prev" aria-label="Previous slide">&#10094;</button>
+            <button class="next" aria-label="Next slide">&#10095;</button>
+        </div>
+        <div class="dots text-center mt-2" id="dots"></div>
+    </section>
+
+    <!-- Itinerary -->
+    <section id="itinerary" class="mb-12">
+        <h3 class="text-2xl md:text-3xl font-bold text-green-600 mb-8 text-center">Itinerary</h3>
+        <div class="space-y-6">
+            <div class="itinerary-step">
+                <h4 class="font-semibold text-lg"><span class="text-green-600">Day 1:</span> Arrival in Nairobi</h4>
+                <p class="text-gray-700">Arrive at Jomo Kenyatta International Airport. Meet your guide and transfer to your hotel. Safari briefing and overnight stay. <b>Meals:</b> Dinner.</p>
+            </div>
+            <div class="itinerary-step">
+                <h4 class="font-semibold text-lg"><span class="text-green-600">Day 2:</span> Nairobi to Maasai Mara</h4>
+                <p class="text-gray-700">Drive through the Great Rift Valley to Maasai Mara. Afternoon game drive. Overnight at a luxury tented camp. <b>Meals:</b> Breakfast, Lunch, Dinner.</p>
+            </div>
+            <div class="itinerary-step">
+                <h4 class="font-semibold text-lg"><span class="text-green-600">Day 3:</span> Maasai Mara Game Drives</h4>
+                <p class="text-gray-700">Full day in Maasai Mara with morning and afternoon game drives. Spot lions, cheetahs, elephants, and more. <b>Meals:</b> Breakfast, Lunch, Dinner.</p>
+            </div>
+            <div class="itinerary-step">
+                <h4 class="font-semibold text-lg"><span class="text-green-600">Day 4:</span> Maasai Village Visit & Wildlife</h4>
+                <p class="text-gray-700">Visit a Maasai village for cultural immersion. Optional hot air balloon safari (extra). Evening game drive. <b>Meals:</b> Breakfast, Lunch, Dinner.</p>
+            </div>
+            <div class="itinerary-step">
+                <h4 class="font-semibold text-lg"><span class="text-green-600">Day 5:</span> Return to Nairobi & Departure</h4>
+                <p class="text-gray-700">Morning game drive. Return to Nairobi for lunch and shopping before airport drop-off. <b>Meals:</b> Breakfast, Lunch.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inclusions & Exclusions -->
+    <section id="inclusions-exclusions" class="mb-12">
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="border-2 border-green-200 rounded-xl p-8 bg-green-50 shadow-md">
+                <h3 class="text-2xl font-bold text-green-600 mb-4">Inclusions</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li>All airport transfers and ground transport in a 4x4 safari vehicle</li>
+                    <li>Accommodation in luxury tented camps/lodges (as per itinerary)</li>
+                    <li>All meals as specified (Breakfast, Lunch, Dinner)</li>
+                    <li>Professional English-speaking safari guide/driver</li>
+                    <li>All park entrance fees and government taxes</li>
+                    <li>Daily game drives in Maasai Mara</li>
+                    <li>Bottled drinking water during safari</li>
+                    <li>Maasai village visit</li>
+                </ul>
+            </div>
+            <div class="border-2 border-green-200 rounded-xl p-8 bg-green-50 shadow-md">
+                <h3 class="text-2xl font-bold text-green-600 mb-4">Exclusions</h3>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li>International flights & visas</li>
+                    <li>Travel & medical insurance</li>
+                    <li>Optional hot air balloon safari</li>
+                    <li>Personal expenses (laundry, tips, drinks, etc.)</li>
+                    <li>Any items not mentioned as included</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+        <!-- Rates -->
+        <section id="rates" class="mb-4">
+            <h3 class="text-2xl md:text-3xl font-bold text-green-600 mb-8 text-center">Rates & Bookings</h3>
+            <div class="overflow-x-auto">
+                <table class="rates-table w-full text-center rounded-lg overflow-hidden shadow-lg bg-green-50">
+                    <thead>
+                        <tr>
+                            <th class="text-green-700">Valid Until</th>
+                            <th class="text-green-700">2 Pax</th>
+                            <th class="text-green-700">4 Pax</th>
+                            <th class="text-green-700">6 Pax</th>
+                            <th class="text-green-700">SRS</th>
+                            <th class="text-green-700">Book</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover:bg-green-100 transition">
+                            <td>2025-12-31</td>
+                            <td><small>USD</small> 1,599</td>
+                            <td><small>USD</small> 1,299</td>
+                            <td><small>USD</small> 1,099</td>
+                            <td><small>USD</small> 270</td>
+                            <td>
+                                <button class="book-btn" 
+                                    onclick="openBookingModal('2025-12-31')"
+                                    data-valid="2025-12-31"
+                                    data-2pax="1599"
+                                    data-4pax="1299"
+                                    data-6pax="1099"
+                                    data-srs="270"
+                                >Book</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-green-100 transition">
+                            <td>2025-09-30</td>
+                            <td><small>USD</small> 1,499</td>
+                            <td><small>USD</small> 1,199</td>
+                            <td><small>USD</small> 999</td>
+                            <td><small>USD</small> 220</td>
+                            <td>
+                                <button class="book-btn" 
+                                    onclick="openBookingModal('2025-09-30')"
+                                    data-valid="2025-09-30"
+                                    data-2pax="1499"
+                                    data-4pax="1199"
+                                    data-6pax="999"
+                                    data-srs="220"
+                                >Book</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-green-100 transition">
+                            <td>2025-06-30</td>
+                            <td><small>USD</small> 1,299</td>
+                            <td><small>USD</small> 999</td>
+                            <td><small>USD</small> 799</td>
+                            <td><small>USD</small> 180</td>
+                            <td>
+                                <button class="book-btn" 
+                                    onclick="openBookingModal('2025-06-30')"
+                                    data-valid="2025-06-30"
+                                    data-2pax="1299"
+                                    data-4pax="999"
+                                    data-6pax="799"
+                                    data-srs="180"
+                                >Book</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Booking Modal -->
+        <div id="bookingModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full p-0 relative flex flex-col" style="max-height:90vh;">
+                <button onclick="closeBookingModal()" class="absolute top-3 right-3 text-gray-400 hover:text-green-600 text-2xl z-10">&times;</button>
+                <div class="overflow-y-auto p-8" style="max-height:80vh;">
+                    <h3 class="text-2xl font-bold text-green-600 mb-4 text-center">Book Your Maasai Mara Expedition</h3>
+                    <form id="bookingForm" class="space-y-4">
+                        <div>
+                            <label class="font-semibold text-gray-700">Safari Name:</label>
+                            <input type="text" id="safariName" name="safariName" class="w-full px-3 py-2 border rounded-lg bg-gray-100" value="Kenya Maasai Mara Expedition" readonly>
+                        </div>
+                        <div>
+                            <label class="font-semibold text-gray-700">Selected Rate:</label>
+                            <input type="text" id="selectedRate" name="selectedRate" class="w-full px-3 py-2 border rounded-lg bg-gray-100" readonly>
+                        </div>
+                        <div>
+                            <label for="paxOption" class="font-semibold text-gray-700">Number of People:</label>
+                            <select id="paxOption" name="paxOption" required class="w-full px-3 py-2 border rounded-lg">
+                                <option value="">Select Option</option>
+                                <option value="2">2 Pax</option>
+                                <option value="4">4 Pax</option>
+                                <option value="6">6 Pax</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="needSRS" class="font-semibold text-gray-700">Need Single Room Supplement (SRS)?</label>
+                            <select id="needSRS" name="needSRS" required class="w-full px-3 py-2 border rounded-lg">
+                                <option value="">Select Option</option>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="fullName" class="font-semibold text-gray-700">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required class="w-full px-3 py-2 border rounded-lg">
+                        </div>
+                        <div>
+                            <label for="bookingNationality" class="font-semibold text-gray-700">Nationality</label>
+                            <select id="bookingNationality" name="nationality" required class="w-full px-3 py-2 border rounded-lg"></select>
+                        </div>
+                        <div>
+                            <label for="email" class="font-semibold text-gray-700">Email</label>
+                            <input type="email" id="bookingEmail" name="email" required class="w-full px-3 py-2 border rounded-lg">
+                        </div>
+                        <div>
+                            <label for="phone" class="font-semibold text-gray-700">Phone</label>
+                            <input type="tel" id="bookingPhone" name="phone" required placeholder="e.g. +254712345678" class="w-full px-3 py-2 border rounded-lg">
+                        </div>
+                        <div>
+                            <label for="adults" class="font-semibold text-gray-700">Number of Adults</label>
+                            <input type="number" id="adults" name="adults" min="1" required class="w-full px-3 py-2 border rounded-lg">
+                        </div>
+                        <div>
+                            <label for="children" class="font-semibold text-gray-700">Number of Children</label>
+                            <input type="number" id="children" name="children" min="0" value="0" class="w-full px-3 py-2 border rounded-lg">
+                        </div>
+                        <div>
+                            <label for="nextOfKin" class="font-semibold text-gray-700">Next of Kin Name</label>
+                            <input type="text" id="nextOfKin" name="nextOfKin" required class="w-full px-3 py-2 border rounded-lg" placeholder="Full name of next of kin">
+                        </div>
+                        <div>
+                            <label for="nextOfKinPhone" class="font-semibold text-gray-700">Next of Kin Phone</label>
+                            <input type="tel" id="nextOfKinPhone" name="nextOfKinPhone" required class="w-full px-3 py-2 border rounded-lg" placeholder="e.g. +254712345678">
+                        </div>
+                        <div>
+                            <label for="additional" class="font-semibold text-gray-700">Additional Requests</label>
+                            <textarea id="additional" name="additional" rows="2" class="w-full px-3 py-2 border rounded-lg" placeholder="Any special requests?"></textarea>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="agreeTerms" required class="mr-2">
+                            <label for="agreeTerms" class="text-gray-700 text-sm">I agree to the <a href="support.html" target="_blank" class="text-green-600 underline">Terms and Conditions</a></label>
+                        </div>
+                        <button type="submit" class="w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition font-semibold">
+                            Submit Booking Request
+                        </button>
+                    </form>
+                    <div id="bookingSuccess" class="hidden text-green-600 font-semibold text-center mt-4">
+                        Thank you! Your booking request has been sent.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Choose Submission Modal -->
+        <div id="chooseSubmitModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full p-8 relative">
+                <button onclick="closeChooseSubmitModal()" class="absolute top-3 right-3 text-gray-400 hover:text-green-600 text-2xl">&times;</button>
+                <h3 class="text-xl font-bold text-green-600 mb-4 text-center">How would you like to submit?</h3>
+                <div class="flex flex-col gap-4">
+                    <button id="submitViaWhatsApp" class="w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition font-semibold">
+                        WhatsApp
+                    </button>
+                    <button id="submitViaEmail" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition font-semibold">
+                        Email
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Are You Sure Modal -->
+        <div id="areYouSureModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full p-8 relative">
+                <button onclick="closeAreYouSureModal()" class="absolute top-3 right-3 text-gray-400 hover:text-green-600 text-2xl">&times;</button>
+                <h3 class="text-xl font-bold text-green-600 mb-4 text-center">Are you sure?</h3>
+                <p class="text-gray-700 mb-6 text-center">Do you want to submit your booking for <span id="confirmSafariName" class="font-semibold text-green-700"></span>?</p>
+                <div class="flex justify-center gap-4">
+                    <button id="confirmYes" class="bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700 font-semibold">Yes</button>
+                    <button onclick="closeAreYouSureModal()" class="bg-gray-300 text-gray-700 py-2 px-6 rounded-lg hover:bg-gray-400 font-semibold">No</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Populate country select with search
+            const countryList = [
+                "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria","Azerbaijan",
+                "Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi",
+                "Cabo Verde","Cambodia","Cameroon","Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo (Congo-Brazzaville)","Costa Rica","Croatia","Cuba","Cyprus","Czechia (Czech Republic)",
+                "Democratic Republic of the Congo","Denmark","Djibouti","Dominica","Dominican Republic",
+                "Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini (fmr. Swaziland)","Ethiopia",
+                "Fiji","Finland","France",
+                "Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana",
+                "Haiti","Holy See","Honduras","Hungary",
+                "Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy",
+                "Jamaica","Japan","Jordan",
+                "Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan",
+                "Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg",
+                "Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar (formerly Burma)",
+                "Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway",
+                "Oman",
+                "Pakistan","Palau","Palestine State","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal",
+                "Qatar",
+                "Romania","Russia","Rwanda",
+                "Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria",
+                "Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu",
+                "Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan",
+                "Vanuatu","Venezuela","Vietnam",
+                "Yemen",
+                "Zambia","Zimbabwe"
+            ];
+
+            function createCountrySelect() {
+                const select = document.getElementById('bookingNationality');
+                select.innerHTML = '';
+                // Add a search input above the select
+                const wrapper = document.createElement('div');
+                wrapper.className = "relative";
+                const search = document.createElement('input');
+                search.type = "text";
+                search.placeholder = "Search country...";
+                search.className = "mb-2 w-full px-3 py-2 border rounded-lg";
+                wrapper.appendChild(search);
+                select.parentNode.insertBefore(wrapper, select);
+                wrapper.appendChild(select);
+
+                function filterCountries(val) {
+                    select.innerHTML = '';
+                    let found = false;
+                    countryList.forEach(country => {
+                        if (country.toLowerCase().includes(val.toLowerCase())) {
+                            const opt = document.createElement('option');
+                            opt.value = country;
+                            opt.textContent = country;
+                            select.appendChild(opt);
+                            found = true;
+                        }
+                    });
+                    if (!found) {
+                        const opt = document.createElement('option');
+                        opt.value = "";
+                        opt.textContent = "No country found";
+                        select.appendChild(opt);
+                    }
+                }
+                // Initial fill
+                filterCountries('');
+                search.addEventListener('input', e => {
+                    filterCountries(e.target.value);
+                });
+            }
+
+            // Modal logic
+            let bookingModal = document.getElementById('bookingModal');
+            let selectedRateInput = document.getElementById('selectedRate');
+            let paxOption = document.getElementById('paxOption');
+            let bookingForm = document.getElementById('bookingForm');
+            let bookingSuccess = document.getElementById('bookingSuccess');
+            let safariNameInput = document.getElementById('safariName');
+            let currentRateData = {};
+            let bookingFormData = null;
+            let submitMethod = null;
+
+            function openBookingModal(validUntil) {
+                // Find the button that triggered this
+                const btns = document.querySelectorAll('.book-btn');
+                let btn;
+                btns.forEach(b => {
+                    if (b.getAttribute('onclick').includes(validUntil)) btn = b;
+                });
+                if (!btn) return;
+                // Store rate data
+                currentRateData = {
+                    valid: btn.getAttribute('data-valid'),
+                    '2': btn.getAttribute('data-2pax'),
+                    '4': btn.getAttribute('data-4pax'),
+                    '6': btn.getAttribute('data-6pax'),
+                    srs: btn.getAttribute('data-srs')
+                };
+                selectedRateInput.value = `Valid Until: ${currentRateData.valid}`;
+                paxOption.value = '';
+                document.getElementById('needSRS').value = '';
+                bookingForm.reset();
+                bookingSuccess.classList.add('hidden');
+                bookingModal.classList.remove('hidden');
+                // Populate country select with search
+                if (!document.getElementById('bookingNationality').previousElementSibling || 
+                    document.getElementById('bookingNationality').previousElementSibling.tagName !== 'INPUT') {
+                    createCountrySelect();
+                }
+            }
+
+            function closeBookingModal() {
+                bookingModal.classList.add('hidden');
+            }
+
+            // Update selected rate when pax changes
+            paxOption && paxOption.addEventListener('change', function() {
+                if (this.value && currentRateData[this.value]) {
+                    selectedRateInput.value = `Valid Until: ${currentRateData.valid} | ${this.value} Pax: USD ${currentRateData[this.value]}`;
+                } else {
+                    selectedRateInput.value = `Valid Until: ${currentRateData.valid}`;
+                }
+            });
+
+            // Booking form submission
+            bookingForm && bookingForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Validate
+                const fullName = document.getElementById('fullName').value.trim();
+                const email = document.getElementById('bookingEmail').value.trim();
+                const phone = document.getElementById('bookingPhone').value.trim();
+                const pax = paxOption.value;
+                const srs = document.getElementById('needSRS').value;
+                const adults = document.getElementById('adults').value;
+                const children = document.getElementById('children').value;
+                const additional = document.getElementById('additional').value.trim();
+                const safariName = safariNameInput.value;
+                const agree = document.getElementById('agreeTerms').checked;
+                const nationality = document.getElementById('bookingNationality').value;
+                const nextOfKin = document.getElementById('nextOfKin').value.trim();
+                const nextOfKinPhone = document.getElementById('nextOfKinPhone').value.trim();
+
+                if (!fullName || !email || !phone || !pax || !srs || !adults || !agree || !nationality || !nextOfKin || !nextOfKinPhone) {
+                    alert('Please fill in all required fields and agree to the terms.');
+                    return;
+                }
+
+                // Save form data for later use
+                bookingFormData = {
+                    safariName,
+                    valid: currentRateData.valid,
+                    pax,
+                    rate: currentRateData[pax],
+                    srs,
+                    srsValue: currentRateData.srs,
+                    fullName,
+                    email,
+                    phone,
+                    nationality,
+                    adults,
+                    children,
+                    nextOfKin,
+                    nextOfKinPhone,
+                    additional
+                };
+
+                // Show "Are you sure?" modal
+                document.getElementById('confirmSafariName').textContent = safariName;
+                document.getElementById('areYouSureModal').classList.remove('hidden');
+            });
+
+            // Are you sure modal logic
+            function closeAreYouSureModal() {
+                document.getElementById('areYouSureModal').classList.add('hidden');
+            }
+            document.getElementById('confirmYes').onclick = function() {
+                closeAreYouSureModal();
+                document.getElementById('chooseSubmitModal').classList.remove('hidden');
+            };
+
+            // Choose submit modal logic
+            function closeChooseSubmitModal() {
+                document.getElementById('chooseSubmitModal').classList.add('hidden');
+            }
+            document.getElementById('submitViaWhatsApp').onclick = function() {
+                submitMethod = 'whatsapp';
+                closeChooseSubmitModal();
+                submitBooking();
+            };
+            document.getElementById('submitViaEmail').onclick = function() {
+                submitMethod = 'email';
+                closeChooseSubmitModal();
+                submitBooking();
+            };
+
+            function closeAllModals() {
+                closeBookingModal();
+                closeAreYouSureModal();
+                closeChooseSubmitModal();
+            }
+
+            // Submission logic
+            function submitBooking() {
+                if (!bookingFormData) return;
+                let msg = `Booking Request - ${bookingFormData.safariName}%0A`;
+                msg += `Rate: Valid Until ${bookingFormData.valid}, ${bookingFormData.pax} Pax, USD ${bookingFormData.rate}%0A`;
+                msg += `Need SRS: ${bookingFormData.srs} (USD ${bookingFormData.srsValue})%0A`;
+                msg += `Full Name: ${bookingFormData.fullName}%0A`;
+                msg += `Nationality: ${bookingFormData.nationality}%0A`;
+                msg += `Email: ${bookingFormData.email}%0A`;
+                msg += `Phone: ${bookingFormData.phone}%0A`;
+                msg += `Adults: ${bookingFormData.adults}%0A`;
+                msg += `Children: ${bookingFormData.children}%0A`;
+                msg += `Next of Kin: ${bookingFormData.nextOfKin}%0A`;
+                msg += `Next of Kin Phone: ${bookingFormData.nextOfKinPhone}%0A`;
+                if (bookingFormData.additional) msg += `Additional Requests: ${bookingFormData.additional}%0A`;
+
+                if (submitMethod === 'whatsapp') {
+                    const phoneNumber = "254785851808";
+                    const url = `https://wa.me/${phoneNumber}?text=${msg}`;
+                    window.open(url, "_blank");
+                } else if (submitMethod === 'email') {
+                    const subject = encodeURIComponent(`Booking Request - ${bookingFormData.safariName}`);
+                    const body = msg.replace(/%0A/g, '\n');
+                    const mailto = `mailto:info@kenyatravels.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+                    window.open(mailto, "_blank");
+                }
+                bookingSuccess.classList.remove('hidden');
+                setTimeout(closeAllModals, 2000);
+            }
+
+            // Close modal on outside click
+            bookingModal && bookingModal.addEventListener('click', function(e) {
+                if (e.target === bookingModal) closeBookingModal();
+            });
+            document.getElementById('chooseSubmitModal').addEventListener('click', function(e) {
+                if (e.target === this) closeChooseSubmitModal();
+            });
+            document.getElementById('areYouSureModal').addEventListener('click', function(e) {
+                if (e.target === this) closeAreYouSureModal();
+            });
+        </script>
+<div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400"> </div>
+        <!-- Contact & Booking -->
+        <section id="contact" class="mb-4" >
+            <h3 class="text-2xl font-bold text-green-600 mb-6">Contact us</h3>
+            <form class="space-y-6" id="whatsappForm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="name" class="block text-gray-700 font-semibold mb-2">Name</label>
+                        <input type="text" required id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
+                        <input type="email" id="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600">
+                    </div>
+                    <div>
+                        <label for="tel" class="block text-gray-700 font-semibold mb-2">Phone</label>
+                        <input type="number" id="tel" placeholder="phone e.g:+254712345678" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600">
+                    </div>
+                </div>
+                <div>
+                    <label for="subject" class="block text-gray-700 font-semibold mb-2">Subject</label>
+                    <input type="text" required id="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600">
+                </div>
+                <div>
+                    <label for="message" class="block text-gray-700 font-semibold mb-2">Message</label>
+                    <textarea id="message" rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-green-600 text-white py-3 px-6 rounded-lg hover:bg-green-700 transition font-semibold" onclick="sendToWhatsApp(event)">
+                    Send Via WhatsApp
+                </button>
+            </form>
+            <script>
+                function sendToWhatsApp(event) {
+                    event.preventDefault();
+                    const name = document.getElementById("name").value.trim();
+                    const email = document.getElementById("email").value.trim();
+                    const tel = document.getElementById("tel").value.trim();
+                    const subject = document.getElementById("subject").value.trim();
+                    const message = document.getElementById("message").value.trim();
+                    const phone = "254785851808";
+                    const text =`Hello, I'm ${name}.\nEmail: ${email} \nPhone:${tel} \nSubject:${subject}\nMessage: ${message}`;
+                    const encodedText = encodeURIComponent(text);
+                    const url = `https://wa.me/${phone}?text=${encodedText}`;
+                    window.open(url, "_blank");
+                }
+            </script>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-plane-departure text-3xl text-green-400 mr-2"></i>
+                        <h3 class="text-2xl font-bold">Ancent<span class="text-green-400">Tours & Hotels</span></h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">Your trusted partner for unforgettable Kenyan adventures since 2025.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-green-400 transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-green-400 transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-green-400 transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-green-400 transition"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-green-400 transition">Home</a></li>
+                        <li><a href="aboutus.html" class="text-gray-400 hover:text-green-400 transition">About Us</a></li>
+                        <li><a href="tour.html" class="text-gray-400 hover:text-green-400 transition">Tours</a></li>
+                        <li><a href="hotel.html" class="text-gray-400 hover:text-green-400 transition">Hotels</a></li>
+                        <li><a href="holiday.html" class="text-gray-400 hover:text-green-400 transition">Holiday Packages</a></li>
+                        <li><a href="blogs.html" class="text-gray-400 hover:text-green-400 transition">Blog</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-green-400 transition">Contact Us</a></li>
+                        <li><a href="gallery.html" class="text-gray-400 hover:text-green-400 transition">Gallery</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="support.html" class="text-gray-400 hover:text-green-400 transition">FAQs</a></li>
+                        <li><a href="support.html" class="text-gray-400 hover:text-green-400 transition">Privacy Policy</a></li>
+                        <li><a href="support.html" class="text-gray-400 hover:text-green-400 transition">Terms & Conditions</a></li>
+                        <li><a href="support.html" class="text-gray-400 hover:text-green-400 transition">Payment Methods</a></li>
+                        <li><a href="support.html" class="text-gray-400 hover:text-green-400 transition">Cancellation Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-green-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">Kirinyaga Road, Nairobi, Kenya</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt text-green-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">+254 701 432 460</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope text-green-400 mt-1 mr-3"></i>
+                            <span class="text-gray-400">info@kenyatravels.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Ancent Tours & Hotels. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Slideshow Script -->
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Slideshow functionality
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.querySelector('.prev');
+        const nextBtn = document.querySelector('.next');
+        const dotsContainer = document.getElementById('dots');
+        let slideIndex = 0;
+        let slideInterval;
+
+        function showSlide(n) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active-slide', i === n);
+                if (dotsContainer.children[i]) {
+                    dotsContainer.children[i].classList.toggle('active', i === n);
+                }
+            });
+            slideIndex = n;
+        }
+        function nextSlide() { showSlide((slideIndex + 1) % slides.length); }
+        function prevSlide() { showSlide((slideIndex - 1 + slides.length) % slides.length); }
+        function startSlideShow() { slideInterval = setInterval(nextSlide, 4000); }
+        function stopSlideShow() { clearInterval(slideInterval); }
+        // Create dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('span');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => { showSlide(i); stopSlideShow(); startSlideShow(); };
+            dotsContainer.appendChild(dot);
+        });
+        prevBtn.onclick = () => { prevSlide(); stopSlideShow(); startSlideShow(); };
+        nextBtn.onclick = () => { nextSlide(); stopSlideShow(); startSlideShow(); };
+        // Touch support for mobile
+        let startX = 0;
+        const slideshow = document.getElementById('slideshow');
+        slideshow.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+        slideshow.addEventListener('touchend', e => {
+            let endX = e.changedTouches[0].clientX;
+            if (endX - startX > 40) { prevBtn.click(); }
+            else if (startX - endX > 40) { nextBtn.click(); }
+        });
+        // Start
+        showSlide(0);
+        startSlideShow();
+    </script>
+</body>
+</html>

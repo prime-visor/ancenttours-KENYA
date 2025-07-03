@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking</title>
+    <link rel="web icon" type="png" href="logos/logos/prime logo.jpg">
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #388e3c;
+            --accent: #fff;
+            --bg: #f4f8fb;
+            --card-bg: #fff;
+            --shadow: 0 8px 24px rgba(44,62,80,0.08);
+            --border: #e0e0e0;
+            --radius: 14px;
+            --transition: 0.2s;
+        }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: #222;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-top: 32px;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+        #return {
+            display: block;
+            margin: 24px auto 0;
+            width: fit-content;
+            background: var(--primary);
+            color: var(--accent);
+            text-decoration: none;
+            padding: 10px 32px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow);
+            transition: background var(--transition);
+        }
+        #return:hover {
+            background: var(--primary-dark);
+        }
+        form {
+            max-width: 900px;
+            margin: 32px auto 32px;
+            background: var(--card-bg);
+            padding: 36px 32px 32px 32px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        .form-group {
+            margin-bottom: 28px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.08rem;
+        }
+        input, select, button, textarea {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 0;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            background: #fafbfc;
+            transition: border var(--transition);
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            accent-color: var(--primary);
+        }
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        .people-input {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #f7f7f7;
+            border-radius: 8px;
+            padding: 10px 16px;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.03);
+        }
+        .people-input label {
+            margin: 0;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        .people-input input[type="number"] {
+            width: 70px;
+            margin-bottom: 0;
+        }
+        .checkbox-group > div > label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background: #f7f7f7;
+            border-radius: 10px;
+            padding: 12px;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.03);
+            cursor: pointer;
+            transition: box-shadow var(--transition), border var(--transition);
+            border: 1px solid transparent;
+        }
+        .checkbox-group > div > label:hover, .checkbox-group > div > label:focus-within {
+            box-shadow: 0 4px 16px rgba(44,62,80,0.08);
+            border: 1px solid var(--primary);
+        }
+        .checkbox-group label img {
+            width: 100%;
+            max-width: 260px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #eaeaea;
+        }
+        .checkbox-group label p {
+            margin: 0;
+            font-size: 0.98rem;
+            color: #444;
+        }
+        button[type="submit"] {
+            background: var(--primary);
+            color: var(--accent);
+            border: none;
+            border-radius: var(--radius);
+            padding: 14px 0;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: background var(--transition), box-shadow var(--transition);
+            margin-top: 12px;
+        }
+        button[type="submit"]:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 8px 32px rgba(44,62,80,0.12);
+        }
+        #total {
+            background: #e8f5e9;
+            color: #1b5e20;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border: 1.5px solid var(--primary);
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        .accept-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        @media (max-width: 700px) {
+            form {
+                padding: 18px 6vw 18px 6vw;
+            }
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            .checkbox-group label img {
+                max-width: 100%;
+            }
+        }
+        a[href^="sms:"] {
+            display: block;
+            margin: 32px auto 0;
+            width: fit-content;
+            background: #1976d2;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 32px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow);
+            transition: background var(--transition);
+        }
+        a[href^="sms:"]:hover {
+           
+            background: #0d47a1;
+        }
+        body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+/*loader*/
+#loader-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+}
+
+    </style>
+</head>
+<div id="loader-wrapper">
+  <div id="loader"></div>
+</div>
+<script>
+  window.addEventListener("load", function() {
+    document.getElementById("loader-wrapper").style.display = "none";
+  });
+</script>
+
+<body>
+    
+  <!-- Scroll progress bar container -->
+  <div id="progress-container" style="position:fixed; top:0; left:0; width:100%; height:6px; background:#ddd; z-index:9999;">
+    <div id="progress-bar" style="height:100%; width:0%; background:#4caf50;"></div>
+  </div>
+
+  <!-- Page content -->
+  <div style="padding:20px; font-family:sans-serif;">
+  </div>
+
+  <!-- JavaScript to update scroll progress -->
+  <script>
+    window.onscroll = function () {
+      var winScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      var scrolled = (winScroll / height) * 100;
+      document.getElementById("progress-bar").style.width = scrolled + "%";
+    };
+  </script>
+
+    <h1>Hotel Booking Form</h1>
+    <a href="index.html" id="return">Return to home page</a>
+    <form id="bookingForm" action="mailto:primebookings0@gmail.com" method="post" enctype="text/plain" autocomplete="off">
+        <input type="hidden" name="Subject" value="Hotel Booking Request">
+        <input type="hidden" name="booking" value="Dear Ancent Bookings Team,%0D%0AI hope this email finds you well. I would like to book a hotel with the following details:%0D%0A">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required placeholder="Your valid full name">
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required placeholder="Valid email eg: example@email.com">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" required placeholder="Valid phone eg: 07XXXXXXXX">
+        </div>
+        <div class="form-group">
+            <label>Gender and Age:</label>
+            <div class="checkbox-group" style="grid-template-columns: 1fr 1fr;">
+                <div class="people-input">
+                    <label><input type="checkbox" name="genderAge[]" value="Male Above 18" onchange="calculateTotal()"> Male Above 18</label>
+                    <input type="number" name="maleAbove18Count" placeholder="No. of people" min="0" oninput="calculateTotal()">
+                </div>
+                <div class="people-input">
+                    <label><input type="checkbox" name="genderAge[]" value="Male Below 18" onchange="calculateTotal()"> Male Below 18</label>
+                    <input type="number" name="maleBelow18Count" placeholder="No. of people" min="0" oninput="calculateTotal()">
+                </div>
+                <div class="people-input">
+                    <label><input type="checkbox" name="genderAge[]" value="Female Above 18" onchange="calculateTotal()"> Female Above 18</label>
+                    <input type="number" name="femaleAbove18Count" placeholder="No. of people" min="0" oninput="calculateTotal()">
+                </div>
+                <div class="people-input">
+                    <label><input type="checkbox" name="genderAge[]" value="Female Below 18" onchange="calculateTotal()"> Female Below 18</label>
+                    <input type="number" name="femaleBelow18Count" placeholder="No. of people" min="0" oninput="calculateTotal()">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="date">Check in Date:</label>
+            <input type="date" id="date" name="date" required>
+            <label for="nights" style="margin-top:12px;">No of Nights</label>
+            <input type="number" id="nights" name="nights" placeholder="No of nights" min="1" required>
+        <!-- Only the relevant part of the code is shown below for brevity.
+        Replace the "Please select your preferred place of visit below:" section with hotel names and update the prices/descriptions as needed. -->
+
+<div class="form-group">
+    <label>Please select your preferred hotel below:</label>
+    <input type="text" id="hotelSearch" placeholder="Search hotels..." style="margin-bottom:18px; width:100%; padding:12px; font-size:1rem; border-radius:6px; border:1px solid #e0e0e0;">
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('hotelSearch');
+        const hotelLabels = document.querySelectorAll('.checkbox-group > div > label');
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value.trim().toLowerCase();
+            hotelLabels.forEach(label => {
+                const text = label.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    label.parentElement.style.display = '';
+                } else {
+                    label.parentElement.style.display = 'none';
+                }
+            });
+        });
+    });
+    </script>
+    <div class="checkbox-group">
+        <!-- Serena Hotel -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Serena Hotel" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/serena1.jpg" alt="Serena Hotel Room 1" style="display:block;">
+                    <img src="picha/serena2.jpg" alt="Serena Hotel Room 2" style="display:none;">
+                    <img src="picha/serena3.jpg" alt="Serena Hotel Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.serenahotels.com/serenanairobi" target="_blank" style="font-weight:bold;">Serena Hotel</a> ($200) - Luxury hotel with world-class amenities and service.
+                </p>
+            </label>
+        </div>
+        <!-- Sarova Stanley -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Sarova Stanley" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/sarova1.jpg" alt="Sarova Stanley Room 1" style="display:block;">
+                    <img src="picha/sarova2.jpg" alt="Sarova Stanley Room 2" style="display:none;">
+                    <img src="picha/sarova3.jpg" alt="Sarova Stanley Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.sarovahotels.com/stanley-nairobi/" target="_blank" style="font-weight:bold;">Sarova Stanley</a> ($180) - Historic hotel in the heart of Nairobi.
+                </p>
+            </label>
+        </div>
+        <!-- Fairmont The Norfolk -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Fairmont The Norfolk" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/norfolk1.jpg" alt="Fairmont The Norfolk Room 1" style="display:block;">
+                    <img src="picha/norfolk2.jpg" alt="Fairmont The Norfolk Room 2" style="display:none;">
+                    <img src="picha/norfolk3.jpg" alt="Fairmont The Norfolk Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.fairmont.com/norfolk-nairobi/" target="_blank" style="font-weight:bold;">Fairmont The Norfolk</a> ($220) - Iconic hotel with colonial charm and modern luxury.
+                </p>
+            </label>
+        </div>
+        <!-- Villa Rosa Kempinski -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Villa Rosa Kempinski" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/kempinski1.jpg" alt="Villa Rosa Kempinski Room 1" style="display:block;">
+                    <img src="picha/kempinski2.jpg" alt="Villa Rosa Kempinski Room 2" style="display:none;">
+                    <img src="picha/kempinski3.jpg" alt="Villa Rosa Kempinski Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.kempinski.com/en/villa-rosa" target="_blank" style="font-weight:bold;">Villa Rosa Kempinski</a> ($250) - Elegant hotel with exceptional dining and spa.
+                </p>
+            </label>
+        </div>
+        <!-- Hemingways Nairobi -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Hemingways Nairobi" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/hemingways1.jpg" alt="Hemingways Nairobi Room 1" style="display:block;">
+                    <img src="picha/hemingways2.jpg" alt="Hemingways Nairobi Room 2" style="display:none;">
+                    <img src="picha/hemingways3.jpg" alt="Hemingways Nairobi Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.hemingways-collection.com/nairobi/" target="_blank" style="font-weight:bold;">Hemingways Nairobi</a> ($230) - Boutique hotel with personalized service.
+                </p>
+            </label>
+        </div>
+        <!-- Ole Sereni -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Ole Sereni" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/olesereni1.jpg" alt="Ole Sereni Room 1" style="display:block;">
+                    <img src="picha/olesereni2.jpg" alt="Ole Sereni Room 2" style="display:none;">
+                    <img src="picha/olesereni3.jpg" alt="Ole Sereni Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.ole-serenihotel.com/" target="_blank" style="font-weight:bold;">Ole Sereni</a> ($170) - Overlooking Nairobi National Park.
+                </p>
+            </label>
+        </div>
+        <!-- Radisson Blu -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Radisson Blu" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/radisson1.jpg" alt="Radisson Blu Room 1" style="display:block;">
+                    <img src="picha/radisson2.jpg" alt="Radisson Blu Room 2" style="display:none;">
+                    <img src="picha/radisson3.jpg" alt="Radisson Blu Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.radissonhotels.com/en-us/hotels/radisson-blu-nairobi-upper-hill" target="_blank" style="font-weight:bold;">Radisson Blu</a> ($190) - Modern luxury in Upper Hill.
+                </p>
+            </label>
+        </div>
+        <!-- InterContinental Nairobi -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="InterContinental Nairobi" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/intercontinental1.jpg" alt="InterContinental Nairobi Room 1" style="display:block;">
+                    <img src="picha/intercontinental2.jpg" alt="InterContinental Nairobi Room 2" style="display:none;">
+                    <img src="picha/intercontinental3.jpg" alt="InterContinental Nairobi Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.ihg.com/intercontinental/hotels/gb/en/nairobi/nboha/hoteldetail" target="_blank" style="font-weight:bold;">InterContinental Nairobi</a> ($160) - Classic comfort in the city center.
+                </p>
+            </label>
+        </div>
+        <!-- The Boma Nairobi -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="The Boma Nairobi" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/boma1.jpg" alt="The Boma Nairobi Room 1" style="display:block;">
+                    <img src="picha/boma2.jpg" alt="The Boma Nairobi Room 2" style="display:none;">
+                    <img src="picha/boma3.jpg" alt="The Boma Nairobi Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.theboma.co.ke/" target="_blank" style="font-weight:bold;">The Boma Nairobi</a> ($150) - Contemporary hotel with a social mission.
+                </p>
+            </label>
+        </div>
+        <!-- Eka Hotel -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Eka Hotel" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/eka1.jpg" alt="Eka Hotel Room 1" style="display:block;">
+                    <img src="picha/eka2.jpg" alt="Eka Hotel Room 2" style="display:none;">
+                    <img src="picha/eka3.jpg" alt="Eka Hotel Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.ekahotel.com/" target="_blank" style="font-weight:bold;">Eka Hotel</a> ($140) - Modern comfort near JKIA.
+                </p>
+            </label>
+        </div>
+        <!-- Hilton Nairobi -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Hilton Nairobi" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/hilton1.jpg" alt="Hilton Nairobi Room 1" style="display:block;">
+                    <img src="picha/hilton2.jpg" alt="Hilton Nairobi Room 2" style="display:none;">
+                    <img src="picha/hilton3.jpg" alt="Hilton Nairobi Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.hilton.com/en/hotels/nbohitw-hilton-nairobi/" target="_blank" style="font-weight:bold;">Hilton Nairobi</a> ($170) - Iconic city landmark.
+                </p>
+            </label>
+        </div>
+        <!-- Windsor Golf Hotel -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Windsor Golf Hotel" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/windsor1.jpg" alt="Windsor Golf Hotel Room 1" style="display:block;">
+                    <img src="picha/windsor2.jpg" alt="Windsor Golf Hotel Room 2" style="display:none;">
+                    <img src="picha/windsor3.jpg" alt="Windsor Golf Hotel Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.windsorgolfresort.com/" target="_blank" style="font-weight:bold;">Windsor Golf Hotel</a> ($210) - Golf resort with lush gardens.
+                </p>
+            </label>
+        </div>
+        <!-- Movenpick Hotel -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Movenpick Hotel" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/movenpick1.jpg" alt="Movenpick Hotel Room 1" style="display:block;">
+                    <img src="picha/movenpick2.jpg" alt="Movenpick Hotel Room 2" style="display:none;">
+                    <img src="picha/movenpick3.jpg" alt="Movenpick Hotel Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.movenpick.com/en/africa/kenya/nairobi/hotel-nairobi.html" target="_blank" style="font-weight:bold;">Movenpick Hotel</a> ($200) - Upscale hotel with panoramic views.
+                </p>
+            </label>
+        </div>
+        <!-- Crowne Plaza Nairobi -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Crowne Plaza Nairobi" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/crowne1.jpg" alt="Crowne Plaza Nairobi Room 1" style="display:block;">
+                    <img src="picha/crowne2.jpg" alt="Crowne Plaza Nairobi Room 2" style="display:none;">
+                    <img src="picha/crowne3.jpg" alt="Crowne Plaza Nairobi Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.ihg.com/crowneplaza/hotels/gb/en/nairobi/nboza/hoteldetail" target="_blank" style="font-weight:bold;">Crowne Plaza Nairobi</a> ($180) - Business hotel in Upper Hill.
+                </p>
+            </label>
+        </div>
+        <!-- Four Points by Sheraton -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Four Points by Sheraton" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/fourpoints1.jpg" alt="Four Points by Sheraton Room 1" style="display:block;">
+                    <img src="picha/fourpoints2.jpg" alt="Four Points by Sheraton Room 2" style="display:none;">
+                    <img src="picha/fourpoints3.jpg" alt="Four Points by Sheraton Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.marriott.com/en-us/hotels/nbofp-four-points-nairobi-airport/overview/" target="_blank" style="font-weight:bold;">Four Points by Sheraton</a> ($160) - Modern hotel near the airport.
+                </p>
+            </label>
+        </div>
+        <!-- PrideInn Azure -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="PrideInn Azure" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/prideinn1.jpg" alt="PrideInn Azure Room 1" style="display:block;">
+                    <img src="picha/prideinn2.jpg" alt="PrideInn Azure Room 2" style="display:none;">
+                    <img src="picha/prideinn3.jpg" alt="PrideInn Azure Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://azure.prideinn.co.ke/" target="_blank" style="font-weight:bold;">PrideInn Azure</a> ($130) - Affordable luxury in Westlands.
+                </p>
+            </label>
+        </div>
+        <!-- Best Western Plus -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Best Western Plus" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/bestwestern1.jpg" alt="Best Western Plus Room 1" style="display:block;">
+                    <img src="picha/bestwestern2.jpg" alt="Best Western Plus Room 2" style="display:none;">
+                    <img src="picha/bestwestern3.jpg" alt="Best Western Plus Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.bestwestern.co.ke/" target="_blank" style="font-weight:bold;">Best Western Plus</a> ($120) - Great value and comfort.
+                </p>
+            </label>
+        </div>
+        <!-- Ibis Styles Nairobi -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Ibis Styles Nairobi" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/ibis1.jpg" alt="Ibis Styles Nairobi Room 1" style="display:block;">
+                    <img src="picha/ibis2.jpg" alt="Ibis Styles Nairobi Room 2" style="display:none;">
+                    <img src="picha/ibis3.jpg" alt="Ibis Styles Nairobi Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://all.accor.com/hotel/7235/index.en.shtml" target="_blank" style="font-weight:bold;">Ibis Styles Nairobi</a> ($100) - Stylish and budget-friendly.
+                </p>
+            </label>
+        </div>
+        <!-- Safari Park Hotel -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Safari Park Hotel" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/safaripark1.jpg" alt="Safari Park Hotel Room 1" style="display:block;">
+                    <img src="picha/safaripark2.jpg" alt="Safari Park Hotel Room 2" style="display:none;">
+                    <img src="picha/safaripark3.jpg" alt="Safari Park Hotel Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.safaripark-hotel.com/" target="_blank" style="font-weight:bold;">Safari Park Hotel</a> ($170) - Resort with gardens and entertainment.
+                </p>
+            </label>
+        </div>
+        <!-- Tribe Hotel -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Tribe Hotel" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/tribe1.jpg" alt="Tribe Hotel Room 1" style="display:block;">
+                    <img src="picha/tribe2.jpg" alt="Tribe Hotel Room 2" style="display:none;">
+                    <img src="picha/tribe3.jpg" alt="Tribe Hotel Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.tribehotel.com/" target="_blank" style="font-weight:bold;">Tribe Hotel</a> ($210) - Chic design and luxury.
+                </p>
+            </label>
+        </div>
+        <!-- The Panari Hotel -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="The Panari Hotel" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/panari1.jpg" alt="The Panari Hotel Room 1" style="display:block;">
+                    <img src="picha/panari2.jpg" alt="The Panari Hotel Room 2" style="display:none;">
+                    <img src="picha/panari3.jpg" alt="The Panari Hotel Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.panarihotels.com/" target="_blank" style="font-weight:bold;">The Panari Hotel</a> ($110) - Convenient for travelers.
+                </p>
+            </label>
+        </div>
+        <!-- Azure Airport Hotel -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Azure Airport Hotel" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/azure1.jpg" alt="Azure Airport Hotel Room 1" style="display:block;">
+                    <img src="picha/azure2.jpg" alt="Azure Airport Hotel Room 2" style="display:none;">
+                    <img src="picha/azure3.jpg" alt="Azure Airport Hotel Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.azureairporthotel.co.ke/" target="_blank" style="font-weight:bold;">Azure Airport Hotel</a> ($120) - Close to JKIA.
+                </p>
+            </label>
+        </div>
+        <!-- Tamarind Tree Hotel -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Tamarind Tree Hotel" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/tamarind1.jpg" alt="Tamarind Tree Hotel Room 1" style="display:block;">
+                    <img src="picha/tamarind2.jpg" alt="Tamarind Tree Hotel Room 2" style="display:none;">
+                    <img src="picha/tamarind3.jpg" alt="Tamarind Tree Hotel Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.tamarindtree-hotels.com/" target="_blank" style="font-weight:bold;">Tamarind Tree Hotel</a> ($140) - Modern and vibrant.
+                </p>
+            </label>
+        </div>
+        <!-- The Concord Hotel -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="The Concord Hotel" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/concord1.jpg" alt="The Concord Hotel Room 1" style="display:block;">
+                    <img src="picha/concord2.jpg" alt="The Concord Hotel Room 2" style="display:none;">
+                    <img src="picha/concord3.jpg" alt="The Concord Hotel Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.theconcordhotels.com/" target="_blank" style="font-weight:bold;">The Concord Hotel</a> ($150) - Contemporary luxury.
+                </p>
+            </label>
+        </div>
+        <!-- Golden Tulip -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Golden Tulip" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/goldentulip1.jpg" alt="Golden Tulip Room 1" style="display:block;">
+                    <img src="picha/goldentulip2.jpg" alt="Golden Tulip Room 2" style="display:none;">
+                    <img src="picha/goldentulip3.jpg" alt="Golden Tulip Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://www.goldentulip.com/en-us/hotels/golden-tulip-westlands-nairobi/" target="_blank" style="font-weight:bold;">Golden Tulip</a> ($130) - Stylish and central.
+                </p>
+            </label>
+        </div>
+        <!-- Swiss Lenana Mount -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Swiss Lenana Mount" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/swiss1.jpg" alt="Swiss Lenana Mount Room 1" style="display:block;">
+                    <img src="picha/swiss2.jpg" alt="Swiss Lenana Mount Room 2" style="display:none;">
+                    <img src="picha/swiss3.jpg" alt="Swiss Lenana Mount Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://swisslenanamounthotel.com/" target="_blank" style="font-weight:bold;">Swiss Lenana Mount</a> ($120) - Affordable and comfortable.
+                </p>
+            </label>
+        </div>
+        <!-- Weston Hotel -->
+        <div>
+            <label>
+                <input type="checkbox" name="places[]" value="Weston Hotel" onchange="calculateTotal()">
+                <div class="hotel-slider">
+                    <img src="picha/weston1.jpg" alt="Weston Hotel Room 1" style="display:block;">
+                    <img src="picha/weston2.jpg" alt="Weston Hotel Room 2" style="display:none;">
+                    <img src="picha/weston3.jpg" alt="Weston Hotel Room 3" style="display:none;">
+                    <button type="button" class="prev-btn">&#10094;</button>
+                    <button type="button" class="next-btn">&#10095;</button>
+                </div>
+                <p>
+                    <a href="https://westonhotel.com/" target="_blank" style="font-weight:bold;">Weston Hotel</a> ($140) - Convenient and modern.
+                </p>
+            </label>
+        </div>
+    </div>
+
+    <style>
+    .hotel-slider {
+        position: relative;
+        width: 100%;
+        max-width: 260px;
+        height: 120px;
+        margin-bottom: 8px;
+        overflow: hidden;
+        border-radius: 12px;
+        border: 2px solid #e0e0e0;
+        background: #f9f9f9;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.06);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .hotel-slider img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transition: opacity 0.3s;
+        border-radius: 12px;
+        box-shadow: 0 1px 4px rgba(44,62,80,0.04);
+    }
+    .hotel-slider .prev-btn,
+    .hotel-slider .next-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(76,175,80,0.85);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        cursor: pointer;
+        z-index: 2;
+        font-size: 1.3rem;
+        opacity: 0.85;
+        transition: background 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+    }
+    .hotel-slider .prev-btn:hover,
+    .hotel-slider .next-btn:hover {
+        background: #388e3c;
+    }
+    .hotel-slider .prev-btn { left: 8px; }
+    .hotel-slider .next-btn { right: 8px; }
+    .checkbox-group label p {
+        margin: 0;
+        font-size: 1.04rem;
+        color: #333;
+        padding-top: 6px;
+    }
+    .checkbox-group label a {
+        color: #1976d2;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    .checkbox-group label a:hover {
+        color: #388e3c;
+        text-decoration: underline;
+    }
+    @media (max-width: 700px) {
+        .hotel-slider {
+            max-width: 100%;
+            height: 110px;
+        }
+        .hotel-slider img {
+            height: 110px;
+        }
+    }
+    </style>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.hotel-slider').forEach(function(slider) {
+            const imgs = slider.querySelectorAll('img');
+            let idx = 0;
+            function showImg(i) {
+                imgs.forEach((img, j) => img.style.display = (j === i ? 'block' : 'none'));
+            }
+            slider.querySelector('.prev-btn').onclick = function(e) {
+                e.preventDefault();
+                idx = (idx - 1 + imgs.length) % imgs.length;
+                showImg(idx);
+            };
+            slider.querySelector('.next-btn').onclick = function(e) {
+                e.preventDefault();
+                idx = (idx + 1) % imgs.length;
+                showImg(idx);
+            };
+            showImg(idx);
+        });
+    });
+    </script>
+    </div>
+        </div>
+        <div class="form-group">
+            <label for="total">Total Amount:</label>
+            <input type="text" id="total" name="total" readonly>
+        </div>
+        <input type="hidden" name="Clarification" value="%0D%0A%0D%0APlease let me know if you need any additional information and the progress update.%0D%0A%0D%0A">
+        <div class="form-group">
+            <label class="accept-label"><input type="checkbox" id="accept" required> I accept the total amount and wish to proceed with booking.</label>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    <a href="sms:+254701432460?body=Please%20contact%20me.">Send an SMS</a>
+    <script>
+        // Place prices
+        const placePrices = {
+        "Serena Hotel": 200,
+        "Sarova Stanley": 180,
+        "Fairmont The Norfolk": 220,
+        "Villa Rosa Kempinski": 250,
+        "Hemingways Nairobi": 230,
+        "Ole Sereni": 170,
+        "Radisson Blu": 190,
+        "InterContinental Nairobi": 160,
+        "The Boma Nairobi": 150,
+        "Eka Hotel": 140,
+        "Hilton Nairobi": 170,
+        "Windsor Golf Hotel": 210,
+        "Movenpick Hotel": 200,
+        "Crowne Plaza Nairobi": 180,
+        "Four Points by Sheraton": 160,
+        "PrideInn Azure": 130,
+        "Best Western Plus": 120,
+        "Ibis Styles Nairobi": 100,
+        "Safari Park Hotel": 170,
+        "Tribe Hotel": 210,
+        "The Panari Hotel": 110,
+        "Azure Airport Hotel": 120,
+        "Tamarind Tree Hotel": 140,
+        "The Concord Hotel": 150,
+        "Golden Tulip": 130,
+        "Swiss Lenana Mount": 120,
+        "Weston Hotel": 140
+    };
+        function calculateTotal() {
+            // Get selected places
+            const places = Array.from(document.querySelectorAll('input[name="places[]"]:checked')).map(p => p.value);
+
+            // Get people counts
+            const maleAbove18 = parseInt(document.querySelector('input[name="maleAbove18Count"]').value) || 0;
+            const maleBelow18 = parseInt(document.querySelector('input[name="maleBelow18Count"]').value) || 0;
+            const femaleAbove18 = parseInt(document.querySelector('input[name="femaleAbove18Count"]').value) || 0;
+            const femaleBelow18 = parseInt(document.querySelector('input[name="femaleBelow18Count"]').value) || 0;
+            const nights = parseInt(document.querySelector('input[name="nights"]').value) || 1;
+
+            const totalPeople = maleAbove18 + maleBelow18 + femaleAbove18 + femaleBelow18;
+
+            // Calculate base total per person per night
+            let total = 0;
+            for (const place of places) {
+                total += (placePrices[place] || 0);
+            }
+
+            // Calculate total for all people and nights
+            let grandTotal = 0;
+            if (totalPeople > 0 && total > 0) {
+                // Above 18: full price, Below 18: 20% discount
+                const adultCount = maleAbove18 + femaleAbove18;
+                const childCount = maleBelow18 + femaleBelow18;
+                grandTotal = (
+                    (adultCount * total) +
+                    (childCount * total * 0.8)
+                ) * nights;
+            }
+
+            document.getElementById('total').value = grandTotal > 0 ? `$${grandTotal.toFixed(2)}` : '';
+        }
+
+        // Auto-update total on page load and on input change
+        document.addEventListener('DOMContentLoaded', () => {
+            calculateTotal();
+            document.querySelectorAll('input, select').forEach(el => {
+                el.addEventListener('change', calculateTotal);
+            });
+        });
+    </script>
+</body>
+</html>
