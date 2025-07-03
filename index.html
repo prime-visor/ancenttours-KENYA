@@ -376,7 +376,18 @@ section {
         <input type="text" id="userInput" placeholder="Type a message..." autocomplete="off" />
         <button onclick="sendMessage()">Send</button>
     </div>
+     <!-- Other content -->
+
+    <div style="text-align:right; padding:8px;">
+        <button id="chat-close-btn" title="Close chat" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:#888;">&#10005;</button>
+    </div>
 </div>
+<script>
+    // Add this after your chat box HTML
+    document.getElementById('chat-close-btn').onclick = function() {
+        document.getElementById('chat-box').style.display = 'none';
+    };
+</script>
 
 <!-- <button class="admin-btn" onclick="toggleResponses()">Show Responses</button>-->
 <div id="responses-list"></div>
