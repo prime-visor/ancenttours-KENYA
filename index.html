@@ -216,9 +216,9 @@ section {
         }
         #chat-box {
             position: fixed;
-            bottom: 110px;
+            bottom: 180px;
             right: 32px;
-            width: 340px;
+            width: 300px;
             max-height: 480px;
             background: #fff;
             border-radius: var(--radius);
@@ -332,14 +332,14 @@ section {
         }
         @media (max-width: 500px) {
             #chat-box {
-                width: 90vw;
+                width: 98vw;
                 right: 1vw;
-                bottom: 8vw;
+                bottom: 1vw;
                 max-height: 80vh;
             }
             #chat-icon {
                 right: 3vw;
-                bottom: 8vw;
+                bottom: 3vw;
             }
             .admin-btn {
                 right: 1vw;
@@ -347,6 +347,7 @@ section {
             }
         }
     </style>
+
 </head>
 
 <div id="loader-wrapper">
@@ -368,7 +369,7 @@ section {
 <div id="chat-icon" title="Chat with us">💬</div>
 
 <div id="chat-box">
-    <div id="chat-header">Ancient Tours & Hotels Kenya Chat</div>
+    <div id="chat-header">Chat With Cynthia</div>
     <div id="chat-messages">
         <div class="message bot">Karibu! Welcome to Ancient Tours & Hotels Kenya. How can we assist you today?</div>
     </div>
@@ -378,7 +379,7 @@ section {
     </div>
      <!-- Other content -->
 
-    <div style="text-align:right; padding:8px;">
+    <div style="text-align:right; padding:4px;">
         <button id="chat-close-btn" title="Close chat" style="background:none;border:none;font-size:1.5rem;cursor:pointer;color:#888;">&#10005;</button>
     </div>
 </div>
@@ -413,15 +414,15 @@ section {
         { keywords: ["custom"], reply: "We can customize your Kenya tour and hotel package to fit your needs." },
         { keywords: ["support"], reply: "Our support team is available 24/7 for any questions about tours or hotels in Kenya." },
         { keywords: ["contact"], reply: "Contact us via chat, email, or phone for more information about Ancient Tours & Hotels Kenya." },
-        { keywords: ["hello", "hi"], reply: "Hello! 👋 Welcome to Ancient Tours & Hotels Kenya. How can we help you?" },
+        { keywords: ["hello", "hi"], reply: "Hello! 👋 Welcome to Ancent Tours & Hotels Kenya. How can we help you?" },
         { keywords: ["thanks", "thank you"], reply: "You're welcome! Let us know if you have more questions about tours or hotels in Kenya." },
         { keywords: ["goodbye", "bye"], reply: "Goodbye! We hope to host you soon in Kenya with Ancient Tours & Hotels." },
-        { keywords: ["human", "real person"], reply: "I'm GitHub Copilot, a computer bot here to assist you with information about Ancient Tours & Hotels Kenya. If you need a human agent, please let us know and we will connect you." },
+        { keywords: ["human", "real person"], reply: "I'm Cynthia, a computer bot agent here to assist you with information about Ancient Tours & Hotels Kenya. If you need a human agent, please let us know and we will connect you." },
         { keywords: ["where are you", "location", "are you in kenya"], reply: "I'm a virtual assistant (computer bot) and not physically located in Kenya, but I can help you with all your Kenya travel and hotel questions!" },
-        { keywords: ["who are you", "your name"], reply: "I'm GitHub Copilot, a computer bot created to help you with Ancient Tours & Hotels Kenya. How can I assist you today?" },
+        { keywords: ["who are you", "your name"], reply: "I'm Cynthia, a computer bot created to help you with Ancient Tours & Hotels Kenya. How can I assist you today?" },
         { keywords: ["how are you"], reply: "I'm just a computer bot, but I'm here and ready to help you with your travel needs!" },
         { keywords: ["can you help", "help me"], reply: "Absolutely! Please tell me what you need help with regarding tours or hotels in Kenya." },
-        { keywords: ["agent", "speak to someone", "talk to human"], reply: "If you would like to speak to a human agent, please let us know your request and we will connect you as soon as possible." },
+        { keywords: ["agent", "speak to someone", "talk to human"], reply: "If you would like to speak to a human agent, please let us know your request and we will connect you as soon as possible or call our support line 0701432460." },
         { keywords: ["hours", "open", "opening times"], reply: "Our support is available 24/7 online. For in-person visits, please contact us for office hours." },
         { keywords: ["payment", "pay", "methods"], reply: "We accept various payment methods including mobile money, credit cards, and bank transfers. Let us know your preference." },
         { keywords: ["refund", "cancel", "cancellation"], reply: "For cancellations or refunds, please provide your booking details and our team will assist you." },
@@ -531,7 +532,7 @@ function sendMessage() {
     const typingDiv = document.createElement('div');
     typingDiv.className = 'message bot';
     typingDiv.id = 'typing-indicator';
-    typingDiv.textContent = 'typing...';
+    typingDiv.innerHTML = '<div class="typing-indicator" style="display: flex; align-items: center;"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><span style="color:green;">typing...</span>';
     chatMessages.appendChild(typingDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -611,12 +612,12 @@ function sendMessage() {
             <a href="contact.html" class="py-2 text-gray-800 hover:text-green-600">Contact</a>
             <a href="gallery.html" class="py-2 text-gray-800 hover:text-green-600">Gallery</a>
             </nav>
-           
-           <!-- <div class="hidden md:flex space-x-4 ">
-                <button class="px-4 py-2 text-green-600 border border-green-600 rounded-full hover:bg-green-600 hover:text-white transition">Login</button>
-                <button class="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition">Sign Up</button>
+           <!-- Login/Signup Buttons -->
+           <div class="hidden md:flex space-x-4 ">
+                <a class="px-4 py-2 text-green-600 border border-green-600 rounded-full hover:bg-green-600 hover:text-white transition" href="login.html">Login</a>
+                <a class="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition" href="register.html">Sign Up</a>
             </div>
-            Mobile Menu -->
+           <!-- Mobile Menu --> 
             <button id="mobile-menu-button" class="md:hidden text-gray-800">
                 <i class="fas fa-bars text-2xl"></i>
             </button>
@@ -632,11 +633,11 @@ function sendMessage() {
             <a href="blogs.html" class="py-2 text-gray-800 hover:text-green-600">Blog</a>
             <a href="contact.html" class="py-2 text-gray-800 hover:text-green-600">Contact</a>
             <a href="gallery.html" class="py-2 text-gray-800 hover:text-green-600">Gallery</a>
-            <!--
+            <!-- Login/Signup Buttons -->
             <div class="flex space-x-4 mt-4">
-                <button class="px-4 py-2 text-green-600 border border-green-600 rounded-full hover:bg-green-600 hover:text-white transition">Login</button>
-                <button class="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition">Sign Up</button>
-            </div>-->
+                <a  class="px-4 py-2 text-green-600 border border-green-600 rounded-full hover:bg-green-600 hover:text-white transition" href="login.html">Login</a>
+                <a class="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition" href="register.html">Sign Up</a>
+            </div>
         </div>
     </header>
     <script>
@@ -1520,7 +1521,33 @@ document.querySelectorAll('.read-more-btn').forEach(function(btn) {
     </div>
 </section>
 
-<!-- EmailJS SDK -->
+<script>
+document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    fetch('newsletter.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'success') {
+            document.getElementById('newsletterSuccess').classList.remove('hidden');
+            document.getElementById('newsletterForm').reset();
+        } else {
+            alert(data.message || "Subscription failed.");
+        }
+    })
+    .catch(err => {
+        alert("There was an error. Please try again.");
+        console.error(err);
+    });
+});
+</script>
+
+<!-- EmailJS SDK -
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
     (function(){
@@ -1539,7 +1566,7 @@ document.querySelectorAll('.read-more-btn').forEach(function(btn) {
 
         this.reset();
     });
-</script>
+</script>-->
 
 
     <!-- Contact Section -->
