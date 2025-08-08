@@ -420,181 +420,247 @@
             </div>
         </div>
 
-        <script>
-            // --- Booking Modal Logic ---
+         <script>
+            // Populate country select with search
+            const countryList = [
+                "Afghanistan","Albania","Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria","Azerbaijan",
+                "Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","Brunei","Bulgaria","Burkina Faso","Burundi",
+                "Cabo Verde","Cambodia","Cameroon","Canada","Central African Republic","Chad","Chile","China","Colombia","Comoros","Congo (Congo-Brazzaville)","Costa Rica","Croatia","Cuba","Cyprus","Czechia (Czech Republic)",
+                "Democratic Republic of the Congo","Denmark","Djibouti","Dominica","Dominican Republic",
+                "Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Eswatini (fmr. Swaziland)","Ethiopia",
+                "Fiji","Finland","France",
+                "Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guinea-Bissau","Guyana",
+                "Haiti","Holy See","Honduras","Hungary",
+                "Iceland","India","Indonesia","Iran","Iraq","Ireland","Israel","Italy",
+                "Jamaica","Japan","Jordan",
+                "Kazakhstan","Kenya","Kiribati","Kuwait","Kyrgyzstan",
+                "Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg",
+                "Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar (formerly Burma)",
+                "Namibia","Nauru","Nepal","Netherlands","New Zealand","Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Norway",
+                "Oman",
+                "Pakistan","Palau","Palestine State","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal",
+                "Qatar",
+                "Romania","Russia","Rwanda",
+                "Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden","Switzerland","Syria",
+                "Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu",
+                "Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan",
+                "Vanuatu","Venezuela","Vietnam",
+                "Yemen",
+                "Zambia","Zimbabwe"
+            ];
+
+            function createCountrySelect() {
+                const select = document.getElementById('bookingNationality');
+                select.innerHTML = '';
+                // Add a search input above the select
+                const wrapper = document.createElement('div');
+                wrapper.className = "relative";
+                const search = document.createElement('input');
+                search.type = "text";
+                search.placeholder = "Search country...";
+                search.className = "mb-2 w-full px-3 py-2 border rounded-lg";
+                wrapper.appendChild(search);
+                select.parentNode.insertBefore(wrapper, select);
+                wrapper.appendChild(select);
+
+                function filterCountries(val) {
+                    select.innerHTML = '';
+                    let found = false;
+                    countryList.forEach(country => {
+                        if (country.toLowerCase().includes(val.toLowerCase())) {
+                            const opt = document.createElement('option');
+                            opt.value = country;
+                            opt.textContent = country;
+                            select.appendChild(opt);
+                            found = true;
+                        }
+                    });
+                    if (!found) {
+                        const opt = document.createElement('option');
+                        opt.value = "";
+                        opt.textContent = "No country found";
+                        select.appendChild(opt);
+                    }
+                }
+                // Initial fill
+                filterCountries('');
+                search.addEventListener('input', e => {
+                    filterCountries(e.target.value);
+                });
+            }
+
+            // Modal logic
+            let bookingModal = document.getElementById('bookingModal');
+            let selectedRateInput = document.getElementById('selectedRate');
+            let paxOption = document.getElementById('paxOption');
+            let bookingForm = document.getElementById('bookingForm');
+            let bookingSuccess = document.getElementById('bookingSuccess');
+            let safariNameInput = document.getElementById('safariName');
+            let currentRateData = {};
+            let bookingFormData = null;
+            let submitMethod = null;
+
             function openBookingModal(validUntil) {
-                // Find the button that was clicked
+                // Find the button that triggered this
                 const btns = document.querySelectorAll('.book-btn');
-                let btn = null;
+                let btn;
                 btns.forEach(b => {
-                    if (b.getAttribute('data-valid') === validUntil) btn = b;
+                    if (b.getAttribute('onclick').includes(validUntil)) btn = b;
                 });
                 if (!btn) return;
-
-                // Set safari name
-                document.getElementById('safariName').value = "Tsavo East & West Explorer";
-
-                // Set selected rate
-                document.getElementById('selectedRate').value = "Valid Until: " + validUntil;
-
-                // Reset form
-                document.getElementById('bookingForm').reset();
-                document.getElementById('bookingSuccess').classList.add('hidden');
-
-                // Show modal
-                document.getElementById('bookingModal').classList.remove('hidden');
+                // Store rate data
+                currentRateData = {
+                    valid: btn.getAttribute('data-valid'),
+                    '2': btn.getAttribute('data-2pax'),
+                    '4': btn.getAttribute('data-4pax'),
+                    '6': btn.getAttribute('data-6pax'),
+                    srs: btn.getAttribute('data-srs')
+                };
+                selectedRateInput.value = `Valid Until: ${currentRateData.valid}`;
+                paxOption.value = '';
+                document.getElementById('needSRS').value = '';
+                bookingForm.reset();
+                bookingSuccess.classList.add('hidden');
+                bookingModal.classList.remove('hidden');
+                // Populate country select with search
+                if (!document.getElementById('bookingNationality').previousElementSibling || 
+                    document.getElementById('bookingNationality').previousElementSibling.tagName !== 'INPUT') {
+                    createCountrySelect();
+                }
             }
 
             function closeBookingModal() {
-                document.getElementById('bookingModal').classList.add('hidden');
+                bookingModal.classList.add('hidden');
             }
 
-            // --- Choose Submission Modal Logic ---
-            function openChooseSubmitModal() {
-                document.getElementById('chooseSubmitModal').classList.remove('hidden');
-            }
-            function closeChooseSubmitModal() {
-                document.getElementById('chooseSubmitModal').classList.add('hidden');
-            }
+            // Update selected rate when pax changes
+            paxOption && paxOption.addEventListener('change', function() {
+                if (this.value && currentRateData[this.value]) {
+                    selectedRateInput.value = `Valid Until: ${currentRateData.valid} | ${this.value} Pax: USD ${currentRateData[this.value]}`;
+                } else {
+                    selectedRateInput.value = `Valid Until: ${currentRateData.valid}`;
+                }
+            });
 
-            // --- Are You Sure Modal Logic ---
-            function openAreYouSureModal(safariName) {
+            // Booking form submission
+            bookingForm && bookingForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Validate
+                const fullName = document.getElementById('fullName').value.trim();
+                const email = document.getElementById('bookingEmail').value.trim();
+                const phone = document.getElementById('bookingPhone').value.trim();
+                const pax = paxOption.value;
+                const srs = document.getElementById('needSRS').value;
+                const adults = document.getElementById('adults').value;
+                const children = document.getElementById('children').value;
+                const additional = document.getElementById('additional').value.trim();
+                const safariName = safariNameInput.value;
+                const agree = document.getElementById('agreeTerms').checked;
+                const nationality = document.getElementById('bookingNationality').value;
+                const nextOfKin = document.getElementById('nextOfKin').value.trim();
+                const nextOfKinPhone = document.getElementById('nextOfKinPhone').value.trim();
+
+                if (!fullName || !email || !phone || !pax || !srs || !adults || !agree || !nationality || !nextOfKin || !nextOfKinPhone) {
+                    alert('Please fill in all required fields and agree to the terms.');
+                    return;
+                }
+
+                // Save form data for later use
+                bookingFormData = {
+                    safariName,
+                    valid: currentRateData.valid,
+                    pax,
+                    rate: currentRateData[pax],
+                    srs,
+                    srsValue: currentRateData.srs,
+                    fullName,
+                    email,
+                    phone,
+                    nationality,
+                    adults,
+                    children,
+                    nextOfKin,
+                    nextOfKinPhone,
+                    additional
+                };
+
+                // Show "Are you sure?" modal
                 document.getElementById('confirmSafariName').textContent = safariName;
                 document.getElementById('areYouSureModal').classList.remove('hidden');
-            }
+            });
+
+            // Are you sure modal logic
             function closeAreYouSureModal() {
                 document.getElementById('areYouSureModal').classList.add('hidden');
             }
+            document.getElementById('confirmYes').onclick = function() {
+                closeAreYouSureModal();
+                document.getElementById('chooseSubmitModal').classList.remove('hidden');
+            };
 
-            // --- Booking Form Submission ---
-            document.getElementById('bookingForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                openChooseSubmitModal();
-            });
-
-            // Submission via WhatsApp or Email
+            // Choose submit modal logic
+            function closeChooseSubmitModal() {
+                document.getElementById('chooseSubmitModal').classList.add('hidden');
+            }
             document.getElementById('submitViaWhatsApp').onclick = function() {
+                submitMethod = 'whatsapp';
                 closeChooseSubmitModal();
-                openAreYouSureModal(document.getElementById('safariName').value);
-                document.getElementById('confirmYes').onclick = function() {
-                    closeAreYouSureModal();
-                    sendBookingViaWhatsApp();
-                };
+                submitBooking();
             };
             document.getElementById('submitViaEmail').onclick = function() {
+                submitMethod = 'email';
                 closeChooseSubmitModal();
-                openAreYouSureModal(document.getElementById('safariName').value);
-                document.getElementById('confirmYes').onclick = function() {
-                    closeAreYouSureModal();
-                    sendBookingViaEmail();
-                };
+                submitBooking();
             };
 
-            function sendBookingViaWhatsApp() {
-                const f = document.getElementById('bookingForm');
-                const phone = "254785851808";
-                const text =
-                    `Safari: ${f.safariName.value}\n` +
-                    `${f.selectedRate.value}\n` +
-                    `Pax: ${f.paxOption.value}\n` +
-                    `SRS: ${f.needSRS.value}\n` +
-                    `Name: ${f.fullName.value}\n` +
-                    `Nationality: ${f.nationality.value}\n` +
-                    `Email: ${f.email.value}\n` +
-                    `Phone: ${f.phone.value}\n` +
-                    `Adults: ${f.adults.value}\n` +
-                    `Children: ${f.children.value}\n` +
-                    `Next of Kin: ${f.nextOfKin.value}\n` +
-                    `Next of Kin Phone: ${f.nextOfKinPhone.value}\n` +
-                    `Requests: ${f.additional.value}`;
-                const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
-                window.open(url, "_blank");
-                document.getElementById('bookingSuccess').classList.remove('hidden');
+            function closeAllModals() {
+                closeBookingModal();
+                closeAreYouSureModal();
+                closeChooseSubmitModal();
             }
 
-            function sendBookingViaEmail() {
-                const f = document.getElementById('bookingForm');
-                const to = "ancenttours@gmail.com";
-                const subject = encodeURIComponent("Tsavo East & West Explorer Booking Request");
-                const body =
-                    `Safari: ${f.safariName.value}\n` +
-                    `${f.selectedRate.value}\n` +
-                    `Pax: ${f.paxOption.value}\n` +
-                    `SRS: ${f.needSRS.value}\n` +
-                    `Name: ${f.fullName.value}\n` +
-                    `Nationality: ${f.nationality.value}\n` +
-                    `Email: ${f.email.value}\n` +
-                    `Phone: ${f.phone.value}\n` +
-                    `Adults: ${f.adults.value}\n` +
-                    `Children: ${f.children.value}\n` +
-                    `Next of Kin: ${f.nextOfKin.value}\n` +
-                    `Next of Kin Phone: ${f.nextOfKinPhone.value}\n` +
-                    `Requests: ${f.additional.value}`;
-                window.location.href = `mailto:${to}?subject=${subject}&body=${encodeURIComponent(body)}`;
-                document.getElementById('bookingSuccess').classList.remove('hidden');
+            // Submission logic
+            function submitBooking() {
+                if (!bookingFormData) return;
+                let msg = `Booking Request - ${bookingFormData.safariName}%0A`;
+                msg += `Rate: Valid Until ${bookingFormData.valid}, ${bookingFormData.pax} Pax, USD ${bookingFormData.rate}%0A`;
+                msg += `Need SRS: ${bookingFormData.srs} (USD ${bookingFormData.srsValue})%0A`;
+                msg += `Full Name: ${bookingFormData.fullName}%0A`;
+                msg += `Nationality: ${bookingFormData.nationality}%0A`;
+                msg += `Email: ${bookingFormData.email}%0A`;
+                msg += `Phone: ${bookingFormData.phone}%0A`;
+                msg += `Adults: ${bookingFormData.adults}%0A`;
+                msg += `Children: ${bookingFormData.children}%0A`;
+                msg += `Next of Kin: ${bookingFormData.nextOfKin}%0A`;
+                msg += `Next of Kin Phone: ${bookingFormData.nextOfKinPhone}%0A`;
+                if (bookingFormData.additional) msg += `Additional Requests: ${bookingFormData.additional}%0A`;
+
+                if (submitMethod === 'whatsapp') {
+                    const phoneNumber = "254785851808";
+                    const url = `https://wa.me/${phoneNumber}?text=${msg}`;
+                    window.open(url, "_blank");
+                } else if (submitMethod === 'email') {
+                    const subject = encodeURIComponent(`Booking Request - ${bookingFormData.safariName}`);
+                    const body = msg.replace(/%0A/g, '\n');
+                    const mailto = `mailto:info@kenyatravels.com?subject=${subject}&body=${encodeURIComponent(body)}`;
+                    window.open(mailto, "_blank");
+                }
+                bookingSuccess.classList.remove('hidden');
+                setTimeout(closeAllModals, 2000);
             }
 
-            // --- Populate Nationality Dropdown ---
-            (function populateNationality() {
-                const select = document.getElementById('bookingNationality');
-                const countries = [
-                    "Kenya","Uganda","Tanzania","Rwanda","Burundi","South Sudan","Ethiopia","Nigeria","Ghana","South Africa","United States","United Kingdom","Canada","Australia","Germany","France","Italy","Spain","India","China","Japan","Brazil","Other"
-                ];
-                select.innerHTML = '<option value="">Select Nationality</option>' +
-                    countries.map(c => `<option value="${c}">${c}</option>`).join('');
-            })();
-
-            // --- Slideshow Logic ---
-            (function() {
-                let slideIndex = 0;
-                const slides = document.querySelectorAll("#slideshow .slide");
-                const prevBtn = document.querySelector("#slideshow .prev");
-                const nextBtn = document.querySelector("#slideshow .next");
-                const dotsContainer = document.getElementById("dots");
-
-                function showSlide(idx) {
-                    slides.forEach((s, i) => {
-                        s.classList.toggle("active-slide", i === idx);
-                    });
-                    Array.from(dotsContainer.children).forEach((dot, i) => {
-                        dot.classList.toggle("active", i === idx);
-                    });
-                    slideIndex = idx;
-                }
-
-                function nextSlide() {
-                    showSlide((slideIndex + 1) % slides.length);
-                }
-                function prevSlide() {
-                    showSlide((slideIndex - 1 + slides.length) % slides.length);
-                }
-
-                // Dots
-                dotsContainer.innerHTML = "";
-                slides.forEach((_, i) => {
-                    const dot = document.createElement("span");
-                    dot.className = "dot" + (i === 0 ? " active" : "");
-                    dot.onclick = () => showSlide(i);
-                    dotsContainer.appendChild(dot);
-                });
-
-                prevBtn.onclick = prevSlide;
-                nextBtn.onclick = nextSlide;
-
-                // Auto slide
-                setInterval(nextSlide, 6000);
-
-                // Init
-                showSlide(0);
-            })();
-
-            // --- Mobile Menu ---
-            document.getElementById("mobile-menu-button").onclick = function() {
-                const menu = document.getElementById("mobile-menu");
-                menu.classList.toggle("hidden");
-            };
+            // Close modal on outside click
+            bookingModal && bookingModal.addEventListener('click', function(e) {
+                if (e.target === bookingModal) closeBookingModal();
+            });
+            document.getElementById('chooseSubmitModal').addEventListener('click', function(e) {
+                if (e.target === this) closeChooseSubmitModal();
+            });
+            document.getElementById('areYouSureModal').addEventListener('click', function(e) {
+                if (e.target === this) closeAreYouSureModal();
+            });
         </script>
-        <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400"> </div>
+<div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400"> </div>
         <!-- Contact & Booking -->
         <section id="contact" class="mb-4" >
             <h3 class="text-2xl font-bold text-green-600 mb-6">Contact us</h3>
@@ -643,14 +709,14 @@
         </section>
     </div>
 
-      <!-- Footer -->
+    <!-- Footer -->
     <footer class="bg-gray-800 text-white py-12">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <div>
                     <div class="flex items-center mb-4">
                         <i class="fas fa-plane-departure text-3xl text-green-400 mr-2"></i>
-                        <h3 class="text-2xl font-bold">Kenya<span class="text-green-400">Travels</span></h3>
+                        <h3 class="text-2xl font-bold">Ancent<span class="text-green-400">Tours & Hotels</span></h3>
                     </div>
                     <p class="text-gray-400 mb-4">Your trusted partner for unforgettable Kenyan adventures since 2025.</p>
                     <div class="flex space-x-4">
@@ -710,6 +776,7 @@
             </div>
         </div>
     </footer>
+
 
     <!-- Slideshow Script -->
     <script>
