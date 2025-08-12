@@ -1234,6 +1234,7 @@ The form is currently disabled for maintenance and updates.
     <div class="countdown">
     <h3>Launching Soon</h3>
     <div class="timer">
+        
         <div class="time-unit">
             <span class="time-number" id="days">40</span>
             <span class="time-label">Days</span>
@@ -1254,18 +1255,17 @@ The form is currently disabled for maintenance and updates.
 </div>
 
 <script>
-// ✅ Set launch date ONCE
-const launchDate = new Date();
-launchDate.setDate(launchDate.getDate() + 40); // 40 days from now
+// Set a fixed launch date (e.g., 40 days from today, adjust as needed)
+const launchDate = new Date("2025-11-18T12:00:00Z"); // Set your desired launch date/time here (UTC)
 
 function updateCountdown() {
     const now = new Date().getTime();
     const distance = launchDate.getTime() - now;
 
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    const days = Math.max(0, Math.floor(distance / (1000 * 60 * 60 * 24)));
+    const hours = Math.max(0, Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+    const minutes = Math.max(0, Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+    const seconds = Math.max(0, Math.floor((distance % (1000 * 60)) / 1000));
 
     document.getElementById('days').textContent = days.toString().padStart(2, '0');
     document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
