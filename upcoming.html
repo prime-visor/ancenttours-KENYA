@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenya Hotels Booking | Find Best Accommodations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF6B00;
+            --secondary: #007849;
+            --accent: #FFC107;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .hotel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .price-range {
+            accent-color: var(--primary);
+        }
+        
+        .amenity-icon {
+            color: var(--primary);
+        }
+        /* Hide city grids on mobile, show slider instead */
+        @media (max-width: 767px) {
+            .city-section > .grid { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fas fa-hotel text-3xl text-orange-600 mr-2"></i>
+                <h1 class="text-2xl font-bold text-gray-800">Ancent <span class="text-red-600">Stays </span><span class="text-green-600">KENYA</span></h1>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="text-gray-800 hover:text-orange-600 font-medium">Home</a>
+                <a href="#" class="text-gray-800 hover:text-orange-600 font-medium">Hotels</a>
+                <a href="#" class="text-gray-800 hover:text-orange-600 font-medium">Deals</a>
+                <a href="#" class="text-gray-800 hover:text-orange-600 font-medium">About</a>
+                <a href="#" class="text-gray-800 hover:text-orange-600 font-medium">Contact</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button class="px-4 py-2 rounded-full bg-orange-600 text-white hover:bg-orange-700 transition">
+                    Sign In
+                </button>
+                <button class="md:hidden text-gray-800">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Discover Kenya's Finest Hotels</h1>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Book your perfect stay at the best hotels across Nairobi, Mombasa, Kisumu, and more</p>
+            
+            <!-- Search Box -->
+            <div class="bg-white rounded-lg shadow-xl p-6 max-w-4xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="relative">
+                        <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
+                        <input id="searchDestination" type="text" placeholder="Destination" class="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                    <div class="relative">
+                        <i class="fas fa-calendar-alt absolute left-3 top-3 text-gray-400"></i>
+                        <input id="searchCheckin" type="text" placeholder="Check-in Date" class="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                    <div class="relative">
+                        <i class="fas fa-calendar-alt absolute left-3 top-3 text-gray-400"></i>
+                        <input id="searchCheckout" type="text" placeholder="Check-out Date" class="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                    <button id="searchHotelsBtn" class="bg-orange-600 hover:bg-orange-700 text-white p-3 rounded-lg font-medium transition">
+                        Search Hotels
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- Categories -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Explore by City</h2>
+            <div class="flex flex-wrap gap-3 mb-8">
+                <button class="category-btn active px-6 py-2 rounded-full bg-orange-600 text-white">
+                    All Cities
+                </button>
+                <button class="category-btn px-6 py-2 rounded-full bg-gray-200 text-gray-800 hover:bg-gray-300">
+                    Nairobi
+                </button>
+                <button class="category-btn px-6 py-2 rounded-full bg-gray-200 text-gray-800 hover:bg-gray-300">
+                    Mombasa
+                </button>
+                <button class="category-btn px-6 py-2 rounded-full bg-gray-200 text-gray-800 hover:bg-gray-300">
+                    Kisumu
+                </button>
+                <button class="category-btn px-6 py-2 rounded-full bg-gray-200 text-gray-800 hover:bg-gray-300">
+                    Nakuru
+                </button>
+                <button class="category-btn px-6 py-2 rounded-full bg-gray-200 text-gray-800 hover:bg-gray-300">
+                    Eldoret
+                </button>
+                <button class="category-btn px-6 py-2 rounded-full bg-gray-200 text-gray-800 hover:bg-gray-300">
+                    Naivasha
+                </button>
+            </div>
+        </section>
+
+        <!-- Filters -->
+        <section class="mb-12 bg-gray-100 p-6 rounded-lg">
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">Filter Options</h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div>
+                    <label class="block text-gray-700 mb-2">Price Range</label>
+                    <input id="filterPriceRange" type="range" min="1000" max="50000" value="25000" class="price-range w-full">
+                    <div class="flex justify-between mt-2">
+                        <span>KSh 1,000</span>
+                        <span id="priceRangeValue" class="font-semibold text-orange-600">KSh 25,000</span>
+                        <span>KSh 50,000+</span>
+                    </div>
+                </div>
+                <script>
+                  // Show live price range value
+                  (function(){
+                    const range = document.getElementById('filterPriceRange');
+                    const valueEl = document.getElementById('priceRangeValue');
+                    if(!range || !valueEl) return;
+                    function ksh(n){ try { return 'KSh ' + Number(n||0).toLocaleString('en-KE'); } catch(e){ return 'KSh ' + n; } }
+                    function update(){ valueEl.textContent = ksh(range.value); }
+                    range.addEventListener('input', update);
+                    update();
+                  })();
+                </script>
+                <div>
+                    <label class="block text-gray-700 mb-2">Star Rating</label>
+                    <div class="flex space-x-2" id="ratingFilter">
+                        <button class="rating-btn px-3 py-1 bg-gray-200 rounded hover:bg-orange-600 hover:text-white" data-min="1">1+</button>
+                        <button class="rating-btn px-3 py-1 bg-gray-200 rounded hover:bg-orange-600 hover:text-white" data-min="2">2+</button>
+                        <button class="rating-btn px-3 py-1 bg-orange-600 text-white rounded" data-min="3">3+</button>
+                        <button class="rating-btn px-3 py-1 bg-gray-200 rounded hover:bg-orange-600 hover:text-white" data-min="4">4+</button>
+                        <button class="rating-btn px-3 py-1 bg-gray-200 rounded hover:bg-orange-600 hover:text-white" data-min="5">5</button>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Amenities</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="wifi" class="mr-2">
+                            <label for="wifi">Free WiFi</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="pool" class="mr-2">
+                            <label for="pool">Swimming Pool</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="parking" class="mr-2">
+                            <label for="parking">Free Parking</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="breakfast" class="mr-2">
+                            <label for="breakfast">Breakfast</label>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Hotel Type</label>
+                    <select id="filterType" class="w-full p-2 border border-gray-300 rounded">
+                        <option>All Types</option>
+                        <option>Luxury</option>
+                        <option>Budget</option>
+                        <option>Resort</option>
+                        <option>Boutique</option>
+                        <option>Business</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hotel Listings -->
+        <section>
+            <!-- Large screens: 3-up sliding carousel -->
+            <div id="lg-hotels-slider" class="hidden lg:block mb-8">
+              <div class="relative overflow-hidden rounded-xl shadow-lg">
+                <div id="lg-slider-track" class="flex will-change-transform"></div>
+                <button id="lg-prev" aria-label="Previous" class="hidden lg:flex absolute top-1/2 -translate-y-1/2 left-2 bg-white text-gray-700 p-2 rounded-full shadow hover:bg-gray-100 z-10"><i class="fas fa-chevron-left"></i></button>
+                <button id="lg-next" aria-label="Next" class="hidden lg:flex absolute top-1/2 -translate-y-1/2 right-2 bg-white text-gray-700 p-2 rounded-full shadow hover:bg-gray-100 z-10"><i class="fas fa-chevron-right"></i></button>
+              </div>
+            </div>
+            <script>
+            (function(){
+              /* always initialize; visibility is controlled by CSS (hidden on <lg) */
+              const data = [
+                // Nairobi
+                { title:'Safari Park Hotel', city:'Nairobi', price:12500, img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80' },
+                { title:'The Norfolk Hotel', city:'Nairobi', price:18000, img:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80' },
+                { title:'Tribe Hotel', city:'Nairobi', price:25000, img:'https://images.unsplash.com/photo-1568084680786-a84f91d1153c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80' },
+                // Mombasa
+                { title:'Sarova Whitesands', city:'Mombasa', price:15000, img:'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80' },
+                { title:'Voyager Beach Resort', city:'Mombasa', price:13500, img:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80' },
+                { title:'Bamburi Beach Hotel', city:'Mombasa', price:12000, img:'https://images.unsplash.com/photo-1568084680786-a84f91d1153c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80' },
+                // Kisumu
+                { title:'Acacia Premier Hotel', city:'Kisumu', price:10000, img:'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80' },
+                { title:'Imperial Hotel Kisumu', city:'Kisumu', price:8500, img:'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80' },
+                { title:'Grand Royal Swiss Hotel', city:'Kisumu', price:9000, img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80' },
+                // Nakuru
+                { title:'Sarova Lion Hill', city:'Nakuru', price:14000, img:'https://images.unsplash.com/photo-1465101178521-c1a4c8a0f8f9?auto=format&fit=crop&w=800&q=80' },
+                { title:'Lake Nakuru Lodge', city:'Nakuru', price:11000, img:'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80' },
+                { title:'Merica Hotel', city:'Nakuru', price:9500, img:'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80' },
+                // Eldoret
+                { title:'Boma Inn Eldoret', city:'Eldoret', price:8000, img:'https://images.unsplash.com/photo-1465101178521-c1a4c8a0f8f9?auto=format&fit=crop&w=800&q=80' },
+                { title:'Sirikwa Hotel', city:'Eldoret', price:7500, img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80' },
+                { title:'Naiberi River Lodge', city:'Eldoret', price:6500, img:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80' },
+                // Naivasha
+                { title:'Enashipai Resort & Spa', city:'Naivasha', price:16000, img:'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80' },
+                { title:'Lake Naivasha Country Club', city:'Naivasha', price:13000, img:'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80' },
+                { title:'Naivasha Kongoni Lodge', city:'Naivasha', price:12000, img:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80' },
+              ];
+
+              const track = document.getElementById('lg-slider-track');
+              const prev = document.getElementById('lg-prev');
+              const next = document.getElementById('lg-next');
+              const container = track.parentElement;
+
+              function ksh(n){ try { return 'KSh ' + Number(n||0).toLocaleString('en-KE'); } catch(e){ return 'KSh ' + n; } }
+              function buildCard(h){
+                const wrap = document.createElement('div');
+                wrap.className = 'slide-card p-2';
+                wrap.innerHTML = `
+                  <div class="bg-white rounded-xl shadow-md overflow-hidden h-full">
+                    <div class="relative">
+                      <img src="${h.img}" alt="${h.title}" class="w-full h-48 object-cover">
+                      <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+                        <div class="text-white font-semibold text-sm">${h.title}</div>
+                        <div class="text-gray-200 text-xs flex items-center">
+                          <i class="fas fa-map-marker-alt mr-1"></i>${h.city} • ${ksh(h.price)}/night
+                        </div>
+                      </div>
+                    </div>
+                  </div>`;
+                return wrap;
+              }
+
+              data.forEach(h => track.appendChild(buildCard(h)));
+
+              let cardWidth = 0;
+              function layout(){
+                cardWidth = Math.floor(container.clientWidth / 3);
+                track.querySelectorAll('.slide-card').forEach(el => {
+                  el.style.flex = '0 0 ' + cardWidth + 'px';
+                });
+                track.style.transform = 'translateX(0px)';
+              }
+              window.addEventListener('resize', layout);
+              layout();
+              if(container.clientWidth === 0){
+                setTimeout(layout, 200);
+                window.addEventListener('load', layout);
+              }
+
+              let animating = false;
+              function advance(){
+                if(animating) return;
+                animating = true;
+                track.style.transition = 'transform 500ms ease';
+                track.style.transform = `translateX(-${cardWidth}px)`;
+              }
+
+              track.addEventListener('transitionend', ()=>{
+                track.style.transition = 'none';
+                track.appendChild(track.firstElementChild);
+                track.style.transform = 'translateX(0px)';
+                requestAnimationFrame(()=>{ animating = false; });
+              });
+
+              let intervalId;
+              function startAuto(){ if(intervalId) clearInterval(intervalId); intervalId = setInterval(advance, 3000); }
+              startAuto();
+              window.addEventListener('load', startAuto);
+              container.addEventListener('mouseenter', ()=> clearInterval(intervalId));
+              container.addEventListener('mouseleave', startAuto);
+              next.addEventListener('click', ()=> advance());
+              prev.addEventListener('click', ()=>{
+                if(animating) return;
+                animating = true;
+                track.style.transition = 'none';
+                track.insertBefore(track.lastElementChild, track.firstElementChild);
+                track.style.transform = `translateX(-${cardWidth}px)`;
+                requestAnimationFrame(()=>{
+                  track.style.transition = 'transform 500ms ease';
+                  track.style.transform = 'translateX(0px)';
+                });
+              });
+            })();
+            </script>
+
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">Featured Hotels</h2>
+                <div class="flex items-center">
+                    <span class="mr-2 text-gray-700">Sort by:</span>
+                    <select class="p-2 border border-gray-300 rounded">
+                        <option>Recommended</option>
+                        <option>Price (Low to High)</option>
+                        <option>Price (High to Low)</option>
+                        <option>Star Rating</option>
+                        <option>Distance</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Mobile Hotels Slider (City-filtered, mobile only) -->
+            <div class="md:hidden mb-8" id="mobile-hotels">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Filter by City</label>
+                    <select id="cityFilter" class="w-full p-3 border border-gray-300 rounded">
+                        <option value="">All Cities</option>
+                        <option value="Nairobi">Nairobi</option>
+                        <option value="Mombasa">Mombasa</option>
+                        <option value="Kisumu">Kisumu</option>
+                        <option value="Nakuru">Nakuru</option>
+                        <option value="Eldoret">Eldoret</option>
+                        <option value="Naivasha">Naivasha</option>
+                    </select>
+                </div>
+                <div class="relative">
+                    <div id="hotels-slider" class="overflow-hidden rounded-xl">
+                        <div id="hotels-track" class="flex transition-transform duration-500 ease-out"></div>
+                    </div>
+                    <button id="hotels-prev" aria-label="Previous" class="absolute top-1/2 -translate-y-1/2 left-2 bg-white text-gray-700 p-2 rounded-full shadow hover:bg-gray-100 z-10"><i class="fas fa-chevron-left"></i></button>
+                    <button id="hotels-next" aria-label="Next" class="absolute top-1/2 -translate-y-1/2 right-2 bg-white text-gray-700 p-2 rounded-full shadow hover:bg-gray-100 z-10"><i class="fas fa-chevron-right"></i></button>
+                    <div id="hotels-dots" class="flex justify-center mt-6 space-x-2"></div>
+                </div>
+            </div>
+
+            <script>
+            (function(){
+                if (!window.matchMedia('(max-width: 767px)').matches) return; // only run on mobile
+                const data = [
+                    // Nairobi
+                    { title:'Safari Park Hotel', city:'Nairobi', price:12500, rating:4.8, img:'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80' },
+                    { title:'The Norfolk Hotel', city:'Nairobi', price:18000, rating:4.7, img:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80' },
+                    { title:'Tribe Hotel', city:'Nairobi', price:25000, rating:4.9, img:'https://images.unsplash.com/photo-1568084680786-a84f91d1153c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80' },
+                    // Mombasa
+                    { title:'Sarova Whitesands', city:'Mombasa', price:15000, rating:4.6, img:'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80' },
+                    { title:'Voyager Beach Resort', city:'Mombasa', price:13500, rating:4.5, img:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80' },
+                    { title:'Bamburi Beach Hotel', city:'Mombasa', price:12000, rating:4.4, img:'https://images.unsplash.com/photo-1568084680786-a84f91d1153c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1374&q=80' },
+                    // Kisumu
+                    { title:'Acacia Premier Hotel', city:'Kisumu', price:10000, rating:4.7, img:'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80' },
+                    { title:'Imperial Hotel Kisumu', city:'Kisumu', price:8500, rating:4.5, img:'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80' },
+                    { title:'Grand Royal Swiss Hotel', city:'Kisumu', price:9000, rating:4.6, img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80' },
+                    // Nakuru
+                    { title:'Sarova Lion Hill', city:'Nakuru', price:14000, rating:4.8, img:'https://images.unsplash.com/photo-1465101178521-c1a4c8a0f8f9?auto=format&fit=crop&w=800&q=80' },
+                    { title:'Lake Nakuru Lodge', city:'Nakuru', price:11000, rating:4.6, img:'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80' },
+                    { title:'Merica Hotel', city:'Nakuru', price:9500, rating:4.5, img:'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80' },
+                    // Eldoret
+                    { title:'Boma Inn Eldoret', city:'Eldoret', price:8000, rating:4.7, img:'https://images.unsplash.com/photo-1465101178521-c1a4c8a0f8f9?auto=format&fit=crop&w=800&q=80' },
+                    { title:'Sirikwa Hotel', city:'Eldoret', price:7500, rating:4.5, img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80' },
+                    { title:'Naiberi River Lodge', city:'Eldoret', price:6500, rating:4.4, img:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80' },
+                    // Naivasha
+                    { title:'Enashipai Resort & Spa', city:'Naivasha', price:16000, rating:4.8, img:'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80' },
+                    { title:'Lake Naivasha Country Club', city:'Naivasha', price:13000, rating:4.6, img:'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80' },
+                    { title:'Naivasha Kongoni Lodge', city:'Naivasha', price:12000, rating:4.5, img:'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80' }
+                ];
+
+                const track = document.getElementById('hotels-track');
+                const prev = document.getElementById('hotels-prev');
+                const next = document.getElementById('hotels-next');
+                const dots = document.getElementById('hotels-dots');
+                const filterSel = document.getElementById('cityFilter');
+                const catBtns = document.querySelectorAll('.category-btn');
+                let slides = [];
+                let index = 0;
+                let intervalId;
+
+                function ksh(n){
+                    try { return 'KSh ' + n.toLocaleString('en-KE'); } catch(e){ return 'KSh ' + n; }
+                }
+                function buildCard(h){
+                    const wrap = document.createElement('div');
+                    wrap.className = 'w-full flex-shrink-0';
+                    wrap.innerHTML = `
+                        <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="${h.img}" alt="${h.title}" class="w-full h-56 object-cover">
+                                <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                    ${h.rating} <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-1">${h.title}</h4>
+                                <div class="flex items-center text-gray-600 mb-4">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>${h.city}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Starting from</p>
+                                        <p class="text-xl font-bold text-orange-600">${ksh(h.price)}</p>
+                                    </div>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition book-btn" data-hotel="${h.title}" data-city="${h.city}" data-price="${h.price}">Book Now</button>
+                                </div>
+                            </div>
+                        </div>`;
+                    return wrap;
+                }
+                function buildDots(n){
+                    dots.innerHTML = '';
+                    for(let i=0;i<n;i++){
+                        const d = document.createElement('button');
+                        d.className = 'w-2.5 h-2.5 rounded-full ' + (i===0 ? 'bg-orange-600' : 'bg-gray-300');
+                        d.setAttribute('aria-label','Go to slide ' + (i+1));
+                        d.addEventListener('click', ()=>{ index = i; update(); startAuto(); });
+                        dots.appendChild(d);
+                    }
+                }
+                function updateDots(){
+                    const children = Array.from(dots.children);
+                    children.forEach((d, i)=>{
+                        d.className = 'w-2.5 h-2.5 rounded-full ' + (i===index ? 'bg-orange-600' : 'bg-gray-300');
+                    });
+                }
+                function update(){
+                    const sliderEl = document.getElementById('hotels-slider');
+                    const width = sliderEl ? sliderEl.clientWidth : 0;
+                    track.style.transform = 'translateX(-' + (index * width) + 'px)';
+                    updateDots();
+                }
+                function stopAuto(){ if(intervalId) clearInterval(intervalId); }
+                function startAuto(){
+                    stopAuto();
+                    if(slides.length > 1){ intervalId = setInterval(()=>{ index = (index + 1) % slides.length; update(); }, 3500); }
+                }
+                function setActiveBtn(city){
+                    catBtns.forEach(b=>{
+                        const label = b.textContent.trim();
+                        const isAll = label.toLowerCase().includes('all cities');
+                        const match = isAll ? city === '' : label.toLowerCase() === city.toLowerCase();
+                        b.classList.toggle('active', match);
+                        if(match){ b.classList.add('bg-orange-600','text-white'); b.classList.remove('bg-gray-200','text-gray-800'); }
+                        else { b.classList.remove('bg-orange-600','text-white'); b.classList.add('bg-gray-200','text-gray-800'); }
+                    });
+                }
+                function render(city){
+                    stopAuto();
+                    track.innerHTML = '';
+                    const priceMaxEl = document.getElementById('filterPriceRange');
+                    const priceMax = priceMaxEl ? parseInt(priceMaxEl.value||'999999',10) : 999999;
+                    const minRating = window.__minRating || 0;
+                    let filtered = data.filter(h => (!city || h.city === city) && h.price <= priceMax && h.rating >= minRating);
+                    if(!filtered.length) filtered = data.filter(h => (!city || h.city === city));
+                    filtered.forEach(h => track.appendChild(buildCard(h)));
+                    slides = Array.from(track.children);
+                    index = 0;
+                    buildDots(slides.length);
+                    update();
+                    startAuto();
+                }
+
+                prev.addEventListener('click', ()=>{ if(!slides.length) return; index = (index - 1 + slides.length) % slides.length; update(); startAuto(); });
+                next.addEventListener('click', ()=>{ if(!slides.length) return; index = (index + 1) % slides.length; update(); startAuto(); });
+                window.addEventListener('resize', update);
+                filterSel.addEventListener('change', ()=>{ setActiveBtn(filterSel.value||''); render(filterSel.value||''); });
+                // Bind top category buttons if present
+                catBtns.forEach(btn=>{
+                    btn.addEventListener('click', ()=>{
+                        const label = btn.textContent.trim();
+                        const city = label.toLowerCase().includes('all cities') ? '' : label;
+                        filterSel.value = city;
+                        setActiveBtn(city);
+                        render(city);
+                    });
+                });
+
+                // Touch support
+                const slider = document.getElementById('hotels-slider');
+                let startX = 0;
+                slider.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+                slider.addEventListener('touchend', e => {
+                    const endX = e.changedTouches[0].clientX;
+                    const dx = endX - startX;
+                    if (Math.abs(dx) > 30) {
+                        if (dx < 0) { next.click(); } else { prev.click(); }
+                    }
+                }, { passive: true });
+
+                // init
+                setActiveBtn('');
+                render('');
+            })();
+            </script>
+
+            <!-- Nairobi Hotels -->
+            <div class="mb-12 city-section" id="city-Nairobi">
+                <h3 class="text-2xl font-semibold mb-4 text-gray-800 flex items-center">
+                    <i class="fas fa-building mr-2 text-orange-600"></i> Nairobi Hotels
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Hotel 1 -->
+                    <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Safari Park Hotel" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                4.8 <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-xl font-bold mb-1">Safari Park Hotel</h4>
+                            <div class="flex items-center text-gray-600 mb-2">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                <span>Nairobi</span>
+                            </div>
+                            <div class="flex mb-3">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star-half-alt text-yellow-400"></i>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                </span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-swimming-pool amenity-icon mr-1"></i> Pool
+                                </span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-utensils amenity-icon mr-1"></i> Restaurant
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Starting from</p>
+                                    <p class="text-xl font-bold text-orange-600">KSh 12,500</p>
+                                </div>
+                                <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hotel 2 -->
+                    <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="The Norfolk Hotel" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                4.7 <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-xl font-bold mb-1">The Norfolk Hotel</h4>
+                            <div class="flex items-center text-gray-600 mb-2">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                <span>Nairobi CBD</span>
+                            </div>
+                            <div class="flex mb-3">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                </span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-spa amenity-icon mr-1"></i> Spa
+                                </span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-parking amenity-icon mr-1"></i> Parking
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Starting from</p>
+                                    <p class="text-xl font-bold text-orange-600">KSh 18,000</p>
+                                </div>
+                                <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hotel 3 -->
+                    <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1568084680786-a84f91d1153c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Tribe Hotel" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                4.9 <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-xl font-bold mb-1">Tribe Hotel</h4>
+                            <div class="flex items-center text-gray-600 mb-2">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                <span>Gigiri, Nairobi</span>
+                            </div>
+                            <div class="flex mb-3">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                </span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-dumbbell amenity-icon mr-1"></i> Gym
+                                </span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-concierge-bell amenity-icon mr-1"></i> Room Service
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Starting from</p>
+                                    <p class="text-xl font-bold text-orange-600">KSh 25,000</p>
+                                </div>
+                                <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mombasa Hotels -->
+            <div class="mb-12 city-section" id="city-Mombasa">
+                <h3 class="text-2xl font-semibold mb-4 text-gray-800 flex items-center">
+                    <i class="fas fa-umbrella-beach mr-2 text-orange-600"></i> Mombasa Hotels
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Hotel 1 -->
+                    <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Sarova Whitesands" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                4.6 <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-xl font-bold mb-1">Sarova Whitesands</h4>
+                            <div class="flex items-center text-gray-600 mb-2">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                <span>Bamburi Beach, Mombasa</span>
+                            </div>
+                            <div class="flex mb-3">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star-half-alt text-yellow-400"></i>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-umbrella-beach amenity-icon mr-1"></i> Beachfront
+                                </span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-swimming-pool amenity-icon mr-1"></i> 3 Pools
+                                </span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-utensils amenity-icon mr-1"></i> 5 Restaurants
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Starting from</p>
+                                    <p class="text-xl font-bold text-orange-600">KSh 15,000</p>
+                                </div>
+                                <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hotel 2 -->
+                    <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Voyager Beach Resort" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                4.5 <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-xl font-bold mb-1">Voyager Beach Resort</h4>
+                            <div class="flex items-center text-gray-600 mb-2">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                <span>Nyali, Mombasa</span>
+                            </div>
+                            <div class="flex mb-3">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-umbrella-beach amenity-icon mr-1"></i> Beachfront
+                                </span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-cocktail amenity-icon mr-1"></i> All-Inclusive
+                                </span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-child amenity-icon mr-1"></i> Kids Club
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Starting from</p>
+                                    <p class="text-xl font-bold text-orange-600">KSh 13,500</p>
+                                </div>
+                                <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hotel 3 -->
+                    <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                        <div class="relative">
+                            <img src="https://images.unsplash.com/photo-1568084680786-a84f91d1153c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Bamburi Beach Hotel" class="w-full h-48 object-cover">
+                            <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                4.4 <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="text-xl font-bold mb-1">Bamburi Beach Hotel</h4>
+                            <div class="flex items-center text-gray-600 mb-2">
+                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                <span>Bamburi, Mombasa</span>
+                            </div>
+                            <div class="flex mb-3">
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                                <i class="fas fa-star text-yellow-400"></i>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-umbrella-beach amenity-icon mr-1"></i> Beachfront
+                                </span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-cocktail amenity-icon mr-1"></i> All-Inclusive
+                                </span>
+                                <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                    <i class="fas fa-child amenity-icon mr-1"></i> Kids Club
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-gray-500 text-sm">Starting from</p>
+                                    <p class="text-xl font-bold text-orange-600">KSh 12,000</p>
+                                </div>
+                                <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                    Book Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div>
+                <!-- Kisumu Hotels -->
+                <div class="mb-12 city-section" id="city-Kisumu">
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-800 flex items-center">
+                        <i class="fas fa-water mr-2 text-orange-600"></i> Kisumu Hotels
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Hotel 1 -->
+                        <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Acacia Premier Hotel" class="w-full h-48 object-cover">
+                                <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                    4.7 <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-1">Acacia Premier Hotel</h4>
+                                <div class="flex items-center text-gray-600 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Kisumu CBD</span>
+                                </div>
+                                <div class="flex mb-3">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-utensils amenity-icon mr-1"></i> Restaurant
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-parking amenity-icon mr-1"></i> Parking
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Starting from</p>
+                                        <p class="text-xl font-bold text-orange-600">KSh 10,000</p>
+                                    </div>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hotel 2 -->
+                        <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80" alt="Imperial Hotel Kisumu" class="w-full h-48 object-cover">
+                                <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                    4.5 <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-1">Imperial Hotel Kisumu</h4>
+                                <div class="flex items-center text-gray-600 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Kisumu</span>
+                                </div>
+                                <div class="flex mb-3">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star-half-alt text-yellow-400"></i>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-swimming-pool amenity-icon mr-1"></i> Pool
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-utensils amenity-icon mr-1"></i> Restaurant
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Starting from</p>
+                                        <p class="text-xl font-bold text-orange-600">KSh 8,500</p>
+                                    </div>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hotel 3 -->
+                        <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Grand Royal Swiss Hotel" class="w-full h-48 object-cover">
+                                <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                    4.6 <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-1">Grand Royal Swiss Hotel</h4>
+                                <div class="flex items-center text-gray-600 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Kisumu</span>
+                                </div>
+                                <div class="flex mb-3">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-dumbbell amenity-icon mr-1"></i> Gym
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-parking amenity-icon mr-1"></i> Parking
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Starting from</p>
+                                        <p class="text-xl font-bold text-orange-600">KSh 9,000</p>
+                                    </div>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nakuru Hotels -->
+                <div class="mb-12 city-section" id="city-Nakuru">
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-800 flex items-center">
+                        <i class="fas fa-tree mr-2 text-orange-600"></i> Nakuru Hotels
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Hotel 1 -->
+                        <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1465101178521-c1a4c8a0f8f9?auto=format&fit=crop&w=800&q=80" alt="Sarova Lion Hill" class="w-full h-48 object-cover">
+                                <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                    4.8 <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-1">Sarova Lion Hill</h4>
+                                <div class="flex items-center text-gray-600 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Lake Nakuru National Park</span>
+                                </div>
+                                <div class="flex mb-3">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-swimming-pool amenity-icon mr-1"></i> Pool
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-utensils amenity-icon mr-1"></i> Restaurant
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Starting from</p>
+                                        <p class="text-xl font-bold text-orange-600">KSh 14,000</p>
+                                    </div>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hotel 2 -->
+                        <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80" alt="Lake Nakuru Lodge" class="w-full h-48 object-cover">
+                                <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                    4.6 <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-1">Lake Nakuru Lodge</h4>
+                                <div class="flex items-center text-gray-600 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Nakuru</span>
+                                </div>
+                                <div class="flex mb-3">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star-half-alt text-yellow-400"></i>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-swimming-pool amenity-icon mr-1"></i> Pool
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-parking amenity-icon mr-1"></i> Parking
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Starting from</p>
+                                        <p class="text-xl font-bold text-orange-600">KSh 11,000</p>
+                                    </div>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hotel 3 -->
+                        <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Merica Hotel" class="w-full h-48 object-cover">
+                                <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                    4.5 <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-1">Merica Hotel</h4>
+                                <div class="flex items-center text-gray-600 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Nakuru CBD</span>
+                                </div>
+                                <div class="flex mb-3">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-dumbbell amenity-icon mr-1"></i> Gym
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-parking amenity-icon mr-1"></i> Parking
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Starting from</p>
+                                        <p class="text-xl font-bold text-orange-600">KSh 9,500</p>
+                                    </div>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Eldoret Hotels -->
+                <div class="mb-12 city-section" id="city-Eldoret">
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-800 flex items-center">
+                        <i class="fas fa-running mr-2 text-orange-600"></i> Eldoret Hotels
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Hotel 1 -->
+                        <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1465101178521-c1a4c8a0f8f9?auto=format&fit=crop&w=800&q=80" alt="Boma Inn Eldoret" class="w-full h-48 object-cover">
+                                <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                    4.7 <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-1">Boma Inn Eldoret</h4>
+                                <div class="flex items-center text-gray-600 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Eldoret CBD</span>
+                                </div>
+                                <div class="flex mb-3">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-swimming-pool amenity-icon mr-1"></i> Pool
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-utensils amenity-icon mr-1"></i> Restaurant
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Starting from</p>
+                                        <p class="text-xl font-bold text-orange-600">KSh 8,000</p>
+                                    </div>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hotel 2 -->
+                        <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Sirikwa Hotel" class="w-full h-48 object-cover">
+                                <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                    4.5 <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-1">Sirikwa Hotel</h4>
+                                <div class="flex items-center text-gray-600 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Eldoret</span>
+                                </div>
+                                <div class="flex mb-3">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star-half-alt text-yellow-400"></i>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-parking amenity-icon mr-1"></i> Parking
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-utensils amenity-icon mr-1"></i> Restaurant
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Starting from</p>
+                                        <p class="text-xl font-bold text-orange-600">KSh 7,500</p>
+                                    </div>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hotel 3 -->
+                        <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80" alt="Naiberi River Lodge" class="w-full h-48 object-cover">
+                                <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                    4.4 <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-1">Naiberi River Lodge</h4>
+                                <div class="flex items-center text-gray-600 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Eldoret</span>
+                                </div>
+                                <div class="flex mb-3">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-swimming-pool amenity-icon mr-1"></i> Pool
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-parking amenity-icon mr-1"></i> Parking
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Starting from</p>
+                                        <p class="text-xl font-bold text-orange-600">KSh 6,500</p>
+                                    </div>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Naivasha Hotels -->
+                <div class="mb-12 city-section" id="city-Naivasha">
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-800 flex items-center">
+                        <i class="fas fa-ship mr-2 text-orange-600"></i> Naivasha Hotels
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Hotel 1 -->
+                        <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80" alt="Enashipai Resort & Spa" class="w-full h-48 object-cover">
+                                <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                    4.8 <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-1">Enashipai Resort & Spa</h4>
+                                <div class="flex items-center text-gray-600 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Naivasha</span>
+                                </div>
+                                <div class="flex mb-3">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-swimming-pool amenity-icon mr-1"></i> Pool
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-spa amenity-icon mr-1"></i> Spa
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Starting from</p>
+                                        <p class="text-xl font-bold text-orange-600">KSh 16,000</p>
+                                    </div>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hotel 2 -->
+                        <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Lake Naivasha Country Club" class="w-full h-48 object-cover">
+                                <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                    4.6 <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-1">Lake Naivasha Country Club</h4>
+                                <div class="flex items-center text-gray-600 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Naivasha</span>
+                                </div>
+                                <div class="flex mb-3">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star-half-alt text-yellow-400"></i>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-parking amenity-icon mr-1"></i> Parking
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-utensils amenity-icon mr-1"></i> Restaurant
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Starting from</p>
+                                        <p class="text-xl font-bold text-orange-600">KSh 13,000</p>
+                                    </div>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Hotel 3 -->
+                        <div class="hotel-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80" alt="Naivasha Kongoni Lodge" class="w-full h-48 object-cover">
+                                <div class="absolute top-2 right-2 bg-orange-600 text-white px-2 py-1 rounded text-sm font-medium">
+                                    4.5 <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <h4 class="text-xl font-bold mb-1">Naivasha Kongoni Lodge</h4>
+                                <div class="flex items-center text-gray-600 mb-2">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>
+                                    <span>Naivasha</span>
+                                </div>
+                                <div class="flex mb-3">
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                    <i class="fas fa-star text-yellow-400"></i>
+                                </div>
+                                <div class="flex flex-wrap gap-2 mb-4">
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-wifi amenity-icon mr-1"></i> Free WiFi
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-swimming-pool amenity-icon mr-1"></i> Pool
+                                    </span>
+                                    <span class="text-xs bg-gray-100 px-2 py-1 rounded flex items-center">
+                                        <i class="fas fa-parking amenity-icon mr-1"></i> Parking
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-gray-500 text-sm">Starting from</p>
+                                        <p class="text-xl font-bold text-orange-600">KSh 12,000</p>
+                                    </div>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition">
+                                        Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 overflow-y-auto p-4">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 relative max-h-[90vh] overflow-y-auto">
+        <button id="closeBooking" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700" aria-label="Close">&times;</button>
+        <h3 class="text-2xl font-bold text-gray-800 mb-1">Book Your Stay</h3>
+        <p id="bookingHotelCity" class="text-gray-600 mb-4"></p>
+        <form id="bookingForm" action="submit_hotel.php" method="POST" class="space-y-4">
+            <input type="hidden" name="hotel_id" id="hotelField">
+            <input type="hidden" name="city" id="cityField">
+            <input type="hidden" name="subtotal" id="priceField">
+            <input type="hidden" name="total" id="totalField">
+
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm text-gray-700 mb-1">Full Name</label>
+              <input type="text" name="name" class="w-full border rounded px-3 py-2" required>
+            </div>
+            <div>
+              <label class="block text-sm text-gray-700 mb-1">Email</label>
+              <input type="email" name="email" class="w-full border rounded px-3 py-2" required>
+            </div>
+            <div>
+              <label class="block text-sm text-gray-700 mb-1">Check-in</label>
+              <input type="date" name="checkin_date" required>
+            </div>
+            <div>
+              <label class="block text-sm text-gray-700 mb-1">Check-out</label>
+                <input type="date" name="checkout_date" required>
+            </div>
+            <div>
+              <label class="block text-sm text-gray-700 mb-1">Guests</label>
+              <select id="guestsSelect" name="guests" class="w-full border rounded px-3 py-2" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm text-gray-700 mb-1">Nights</label>
+              <input type="number" min="1" value="1" name="nights" id="nightsInput" class="w-full border rounded px-3 py-2" required>
+            </div>
+            <div>
+              <label class="block text-sm text-gray-700 mb-1">M-Pesa Phone</label>
+              <input type="tel" name="phone" id="mpesaPhone" pattern="^0\d{9}$|^\+254\d{9}$" placeholder="0XXXXXXXXX or +2547XXXXXXXX" class="w-full border rounded px-3 py-2" required>
+            </div>
+          </div>
+
+          <div class="p-4 bg-orange-50 border border-orange-200 rounded space-y-2">
+            <div class="text-sm text-gray-800">
+              <div>Price per night: <span id="pricePerNight" class="font-semibold">KSh 0</span></div>
+              <div>Guests: <span id="calcGuests" class="font-semibold">1</span> × Nights: <span id="calcNights" class="font-semibold">1</span></div>
+              <div>Subtotal: <span id="calcSubtotal" class="font-semibold">KSh 0</span></div>
+              <div>Booking fee: <span id="calcFee" class="font-semibold">KSh 50</span></div>
+              <div class="text-lg">Total to pay: <span id="calcTotal" class="font-bold text-orange-700">KSh 50</span></div>
+            </div>
+            <div class="mt-2 flex items-center gap-2">
+              <button type="button" id="payBtn" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded">Pay with M-Pesa</button>
+              <span id="payStatus" class="text-sm text-gray-600"></span>
+            </div>
+            <div id="availabilityStatus" class="text-sm"></div>
+          </div>
+
+          <div class="flex justify-end gap-2 pt-2">
+            <button type="button" id="cancelBooking" class="px-4 py-2 rounded border">Cancel</button>
+            <button type="submit" id="confirmBooking" class="px-4 py-2 rounded bg-green-600 text-white disabled:opacity-50" disabled>Confirm Booking</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Desktop city filtering and scroll
+      (function(){
+        if (!window.matchMedia('(min-width: 768px)').matches) return;
+        const btns = document.querySelectorAll('.category-btn');
+        const sections = document.querySelectorAll('.city-section');
+        function showAll(){ sections.forEach(s=> s.style.display='block'); }
+        function showCity(name){
+          sections.forEach(s=>{
+            if(!name) { s.style.display='block'; return; }
+            const id = 'city-' + name;
+            s.style.display = s.id === id ? 'block' : 'none';
+          });
+          if(name){
+            const target = document.getElementById('city-' + name);
+            if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+          }
+        }
+        btns.forEach(b=>{
+          b.addEventListener('click', ()=>{
+            const label = b.textContent.trim();
+            const name = label.toLowerCase().includes('all cities') ? '' : label;
+            if(!name) showAll(); else showCity(name);
+          });
+        });
+      })();
+
+      // Booking modal with totals, availability and simulated M-Pesa payment
+      (function(){
+        const modal = document.getElementById('bookingModal');
+        const closeBtn = document.getElementById('closeBooking');
+        const cancelBtn = document.getElementById('cancelBooking');
+        const form = document.getElementById('bookingForm');
+        const hotelField = document.getElementById('hotelField');
+        const cityField = document.getElementById('cityField');
+        const priceField = document.getElementById('priceField');
+        const totalField = document.getElementById('totalField');
+        const summary = document.getElementById('bookingHotelCity');
+        const payBtn = document.getElementById('payBtn');
+        const payStatus = document.getElementById('payStatus');
+        const confirmBtn = document.getElementById('confirmBooking');
+        const phoneInput = document.getElementById('mpesaPhone');
+        const guestsSelect = document.getElementById('guestsSelect');
+        const nightsInput = document.getElementById('nightsInput');
+        const pricePerNightEl = document.getElementById('pricePerNight');
+        const calcGuestsEl = document.getElementById('calcGuests');
+        const calcNightsEl = document.getElementById('calcNights');
+        const calcSubtotalEl = document.getElementById('calcSubtotal');
+        const calcFeeEl = document.getElementById('calcFee');
+        const calcTotalEl = document.getElementById('calcTotal');
+        const availabilityEl = document.getElementById('availabilityStatus');
+
+        const BOOKING_FEE = 50;
+        let paid = false;
+
+        function ksh(n){ try { return 'KSh ' + Number(n||0).toLocaleString('en-KE'); } catch(e){ return 'KSh ' + n; } }
+        function getAvailability(hotel){
+          const key = 'availability:' + hotel;
+          let v = localStorage.getItem(key);
+          if(v === null){ v = '5'; localStorage.setItem(key, v); }
+          return parseInt(v,10) || 0;
+        }
+        function setAvailability(hotel, v){ localStorage.setItem('availability:' + hotel, String(Math.max(0, v))); }
+
+        function calcTotal(){
+          const price = parseInt(priceField.value||'0',10) || 0;
+          const guests = parseInt(guestsSelect.value||'1',10) || 1;
+          const nights = parseInt(nightsInput.value||'1',10) || 1;
+          const subtotal = price * guests * nights;
+          const total = subtotal + BOOKING_FEE;
+          return { price, guests, nights, subtotal, total };
+        }
+        function updateSummary(){
+          const { price, guests, nights, subtotal, total } = calcTotal();
+          pricePerNightEl.textContent = ksh(price);
+          calcGuestsEl.textContent = guests;
+          calcNightsEl.textContent = nights;
+          calcSubtotalEl.textContent = ksh(subtotal);
+          calcFeeEl.textContent = ksh(BOOKING_FEE);
+          calcTotalEl.textContent = ksh(total);
+          totalField.value = total;
+          payBtn.textContent = 'Pay ' + ksh(total) + ' with M-Pesa';
+          // availability
+          const hotel = hotelField.value;
+          const avail = getAvailability(hotel);
+          if(avail <= 0){
+            availabilityEl.textContent = 'Sold out. No rooms available.';
+            availabilityEl.className = 'text-sm text-red-600';
+            payBtn.disabled = true;
+            confirmBtn.disabled = true;
+          } else {
+            availabilityEl.textContent = 'Rooms available: ' + avail;
+            availabilityEl.className = 'text-sm text-green-700';
+            payBtn.disabled = false;
+          }
+        }
+
+        function open(hotel, city, price){
+          hotelField.value = hotel || '';
+          cityField.value = city || '';
+          priceField.value = String(price || 0);
+          summary.textContent = `${hotel} — ${city}`;
+          if(guestsSelect) guestsSelect.value = '1';
+          if(nightsInput) nightsInput.value = '1';
+          paid = false;
+          payStatus.textContent = '';
+          confirmBtn.disabled = true;
+          updateSummary();
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+        }
+        function close(){
+          modal.classList.add('hidden');
+          modal.classList.remove('flex');
+        }
+
+        // Attach to existing desktop grid buttons
+        document.querySelectorAll('.hotel-card').forEach(card=>{
+          const btn = card.querySelector('button');
+          if(!btn) return;
+          btn.addEventListener('click', ()=>{
+            const hotel = card.querySelector('h4')?.textContent.trim() || 'Hotel';
+            const city = card.querySelector('.fa-map-marker-alt')?.parentElement?.querySelector('span')?.textContent.trim() || '';
+            const priceText = card.querySelector('.text-orange-600')?.textContent || 'KSh 0';
+            const price = parseInt((priceText.match(/\d[\d,]*/)||['0'])[0].replace(/,/g,''),10) || 0;
+            open(hotel, city, price);
+          });
+        });
+
+        // Delegate for mobile slider buttons
+        document.addEventListener('click', (e)=>{
+          const t = e.target.closest('.book-btn');
+          if(!t) return;
+          const hotel = t.getAttribute('data-hotel');
+          const city = t.getAttribute('data-city');
+          const price = parseInt(t.getAttribute('data-price')||'0',10) || 0;
+          open(hotel, city, price);
+        });
+
+        // Update totals on change
+        guestsSelect?.addEventListener('change', updateSummary);
+        nightsInput?.addEventListener('input', updateSummary);
+
+        // Simulated M-Pesa payment of total (price*guests*nights + 50)
+        payBtn.addEventListener('click', ()=>{
+          const phone = phoneInput.value.trim();
+          const { total } = calcTotal();
+          const avail = getAvailability(hotelField.value);
+          if(avail <= 0){
+            payStatus.textContent = 'Sorry, this hotel is sold out.';
+            payStatus.className = 'text-sm text-red-600';
+            return;
+          }
+          if(!/^0\d{9}$/.test(phone) && !/^\+254\d{9}$/.test(phone)){
+            payStatus.textContent = 'Enter a valid M-Pesa number (e.g., 07XXXXXXXX or +2547XXXXXXXX).';
+            payStatus.className = 'text-sm text-red-600';
+            return;
+          }
+          payStatus.textContent = 'Initiating M-Pesa STK push for ' + ksh(total) + '...';
+          payStatus.className = 'text-sm text-gray-600';
+          payBtn.disabled = true;
+          setTimeout(()=>{
+            paid = true;
+            payStatus.textContent = 'Payment successful. ' + ksh(total) + ' received.';
+            payStatus.className = 'text-sm text-green-600';
+            confirmBtn.disabled = false;
+            payBtn.disabled = false;
+          }, 1500);
+        });
+
+        form.addEventListener('submit', (e)=>{
+          const avail = getAvailability(hotelField.value);
+          if(avail <= 0){
+            e.preventDefault();
+            payStatus.textContent = 'Cannot complete booking. No rooms available.';
+            payStatus.className = 'text-sm text-red-600';
+            return;
+          }
+          if(!paid){
+            e.preventDefault();
+            payStatus.textContent = 'Please complete payment before confirming.';
+            payStatus.className = 'text-sm text-red-600';
+            return;
+          }
+          // decrement availability by 1 room (demo only; real systems must verify server-side)
+          setAvailability(hotelField.value, avail - 1);
+        });
+
+        [closeBtn, cancelBtn].forEach(b=> b.addEventListener('click', close));
+        modal.addEventListener('click', (e)=>{ if(e.target === modal) close(); });
+      })();
+    </script>
+<script>
+(function(){
+  const dest = document.getElementById('searchDestination');
+  const checkin = document.getElementById('searchCheckin');
+  const checkout = document.getElementById('searchCheckout');
+  const btn = document.getElementById('searchHotelsBtn');
+  if(!dest || !btn) return;
+
+  const cities = ['Nairobi','Mombasa','Kisumu','Nakuru','Eldoret','Naivasha'];
+
+  function normalizeCity(input) {
+    if(!input) return '';
+    const q = input.trim().toLowerCase();
+    if(!q) return '';
+    const exact = cities.find(c => c.toLowerCase() === q);
+    if(exact) return exact;
+    const starts = cities.find(c => c.toLowerCase().startsWith(q));
+    if(starts) return starts;
+    const includes = cities.find(c => c.toLowerCase().includes(q));
+    if(includes) return includes;
+    return '';
+  }
+
+  function handleSearch(){
+    const inputCity = normalizeCity(dest.value);
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
+
+    if(isMobile){
+      const sel = document.getElementById('cityFilter');
+      if(sel){
+        sel.value = inputCity;
+        const evt = new Event('change', { bubbles: true });
+        sel.dispatchEvent(evt);
+        const mobileSection = document.getElementById('mobile-hotels');
+        if(mobileSection) mobileSection.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    } else {
+      const sections = document.querySelectorAll('.city-section');
+      if(!inputCity){
+        sections.forEach(s=> s.style.display='block');
+        const topHeading = document.querySelector('section h2.text-3xl');
+        if(topHeading) topHeading.scrollIntoView({behavior:'smooth', block:'start'});
+      } else {
+        sections.forEach(s=>{
+          s.style.display = (s.id === 'city-' + inputCity) ? 'block' : 'none';
+        });
+        const target = document.getElementById('city-' + inputCity);
+        if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    }
+  }
+
+  btn.addEventListener('click', (e)=>{ e.preventDefault(); handleSearch(); });
+  dest.addEventListener('keydown', e => { if(e.key==='Enter'){ e.preventDefault(); handleSearch(); } });
+})();
+</script>
+<script>
+// Filters wiring (desktop) and syncing with mobile slider
+(function(){
+  const priceRange = document.getElementById('filterPriceRange');
+  const typeSelect = document.getElementById('filterType');
+  const amenityIds = ['wifi','pool','parking','breakfast'];
+  const ratingBtns = document.querySelectorAll('.rating-btn');
+  const cityFilterSel = document.getElementById('cityFilter');
+
+  // default min rating = 3 (as highlighted)
+  window.__minRating = 3;
+
+  function setActiveRating(btn){
+    ratingBtns.forEach(b=>{
+      if(b === btn){ b.classList.add('bg-orange-600','text-white'); b.classList.remove('bg-gray-200'); }
+      else { b.classList.remove('bg-orange-600','text-white'); if(!b.classList.contains('bg-gray-200')) b.classList.add('bg-gray-200'); }
+    });
+  }
+
+  ratingBtns.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const v = parseInt(btn.getAttribute('data-min')||'0',10) || 0;
+      window.__minRating = v;
+      setActiveRating(btn);
+      applyFiltersDesktop();
+      // sync mobile slider
+      cityFilterSel && cityFilterSel.dispatchEvent(new Event('change'));
+    });
+  });
+
+  function parsePrice(text){
+    const m = (text||'').match(/\d[\d,]*/);
+    return m ? parseInt(m[0].replace(/,/g,''),10) : 0;
+  }
+  function getCardPrice(card){
+    const el = card.querySelector('.text-orange-600');
+    return parsePrice(el ? el.textContent : '0');
+  }
+  function getCardRating(card){
+    // count full star icons as integer threshold
+    const full = card.querySelectorAll('.fa-star:not(.fa-star-half-alt)').length;
+    return full; // 0..5
+  }
+  function getCardCity(card){
+    const span = card.querySelector('.fa-map-marker-alt')?.parentElement?.querySelector('span');
+    return span ? span.textContent.trim() : '';
+  }
+  function hasAmenity(card, key){
+    const txt = (card.textContent||'').toLowerCase();
+    if(key==='wifi') return txt.includes('wifi');
+    if(key==='pool') return txt.includes('pool');
+    if(key==='parking') return txt.includes('parking');
+    if(key==='breakfast') return txt.includes('breakfast');
+    return false;
+  }
+  function deriveType(card, price, rating, city){
+    const txt = (card.textContent||'').toLowerCase();
+    if(rating >= 5 || price >= 15000) return 'Luxury';
+    if(price <= 10000) return 'Budget';
+    if(txt.includes('beachfront') || city.toLowerCase()==='mombasa') return 'Resort';
+    if(txt.includes('boutique')) return 'Boutique';
+    if(city.toLowerCase()==='nairobi' || txt.includes('cbd')) return 'Business';
+    return 'All Types';
+  }
+
+  function applyFiltersDesktop(){
+    const maxPrice = priceRange ? parseInt(priceRange.value||'50000',10) : 50000;
+    const minRating = window.__minRating || 0;
+    const needAmenities = amenityIds.filter(id => document.getElementById(id)?.checked);
+    const type = (typeSelect && typeSelect.value) ? typeSelect.value : 'All Types';
+
+    document.querySelectorAll('.city-section .hotel-card').forEach(card=>{
+      const price = getCardPrice(card);
+      const rating = getCardRating(card);
+      const city = getCardCity(card);
+      const ctype = deriveType(card, price, rating, city);
+
+      let ok = true;
+      if(price > maxPrice) ok = false;
+      if(rating < minRating) ok = false;
+      for(const a of needAmenities){ if(!hasAmenity(card, a)) { ok = false; break; } }
+      if(type !== 'All Types' && ctype !== type) ok = false;
+
+      card.style.display = ok ? '' : 'none';
+    });
+  }
+
+  // Listeners
+  priceRange?.addEventListener('input', ()=>{ applyFiltersDesktop(); cityFilterSel && cityFilterSel.dispatchEvent(new Event('change')); });
+  amenityIds.forEach(id=>{ const el = document.getElementById(id); el?.addEventListener('change', ()=>{ applyFiltersDesktop(); cityFilterSel && cityFilterSel.dispatchEvent(new Event('change')); }); });
+  typeSelect?.addEventListener('change', ()=>{ applyFiltersDesktop(); cityFilterSel && cityFilterSel.dispatchEvent(new Event('change')); });
+
+  // Initial
+  applyFiltersDesktop();
+})();
+</script>
+</html>
