@@ -13,18 +13,125 @@
     <style>
         body { margin: 0; font-family: Arial, sans-serif; background: #f4f4f4; }
         header, footer { background: #222; color: #fff; padding: 1em 0; text-align: center; }
-        .slider-container { max-width: 800px; margin: 2em auto; position: relative; }
-        .slider-image { width: 100%; height: 400px; object-fit: cover; border-radius: 10px; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; font-size: 2em; padding: 0.2em 0.6em; cursor: pointer; border-radius: 50%; }
-        .slider-btn.left { left: 10px; }
-        .slider-btn.right { right: 10px; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5em; max-width: 1200px; margin: 2em auto; }
-        .gallery-item { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
-        .gallery-item img { width: 100%; height: 180px; object-fit: cover; }
-        .gallery-desc { padding: 1em; }
+
+        /* Elegantly styled Slider */
+        .slider-container {
+            max-width: 1100px;
+            margin: 3rem auto;
+            position: relative;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, #f0f9ff 0%, #ecfeff 30%, #f7fee7 70%, #fff7ed 100%);
+            isolation: isolate;
+        }
+        .slider-image {
+            width: 100%;
+            height: 520px;
+            object-fit: cover;
+            display: block;
+            filter: saturate(1.05) contrast(1.02);
+            transition: opacity .6s ease, transform 10s ease-out;
+            opacity: 1;
+        }
+        .slider-container:hover .slider-image { transform: scale(1.03); }
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            background: rgba(255,255,255,0.35);
+            color: #0f172a;
+            border: 1px solid rgba(255,255,255,0.5);
+            cursor: pointer;
+            border-radius: 9999px;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            box-shadow: 0 10px 25px rgba(2,6,23,0.15);
+            transition: all .25s ease;
+            font-size: 1.25rem;
+        }
+        .slider-btn:hover { background: rgba(255,255,255,0.6); transform: translateY(-50%) scale(1.05);} 
+        .slider-btn:active { transform: translateY(-50%) scale(0.98);} 
+        .slider-btn.left { left: 16px; }
+        .slider-btn.right { right: 16px; }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            padding: 6px 10px;
+            background: rgba(255,255,255,0.28);
+            border: 1px solid rgba(255,255,255,0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 9999px;
+            box-shadow: 0 8px 24px rgba(2,6,23,0.15);
+        }
+        .slider-dots .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 9999px;
+            background: rgba(15,23,42,0.35);
+            border: 1px solid rgba(255,255,255,0.6);
+            transition: all .25s ease;
+            cursor: pointer;
+        }
+        .slider-dots .dot.active {
+            width: 24px;
+            background: #16a34a; /* emerald */
+            border-color: rgba(255,255,255,0.9);
+        }
+
+        /* Elegant Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+        .gallery-item {
+            position: relative;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(2,6,23,0.08);
+            transition: transform .35s ease, box-shadow .35s ease;
+        }
+        .gallery-item:hover { transform: translateY(-6px); box-shadow: 0 25px 50px rgba(2,6,23,0.18); }
+        .gallery-item img { width: 100%; height: 240px; object-fit: cover; display: block; transition: transform .9s cubic-bezier(.2,.6,.2,1); }
+        .gallery-item:hover img { transform: scale(1.08); }
+        .gallery-desc {
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            padding: 14px 16px;
+            background: linear-gradient(to top, rgba(0,0,0,.6), rgba(0,0,0,.15));
+            color: #fff;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            transform: translateY(30%);
+            transition: transform .35s ease;
+        }
+        .gallery-item:hover .gallery-desc { transform: translateY(0%); }
+        .gallery-desc h3 { margin: 0 0 4px 0; font-size: 1.1rem; font-weight: 700; letter-spacing: .2px; color: #fff; }
+        .gallery-desc p { margin: 0; font-size: .9rem; color: #e5e7eb; line-height: 1.35; }
+
+        @media (max-width: 900px) {
+            .slider-image { height: 380px; }
+        }
         @media (max-width: 600px) {
-            .slider-image { height: 200px; }
-            .gallery-item img { height: 120px; }
+            .slider-image { height: 250px; }
+            .gallery-item img { height: 160px; }
+            .slider-btn { width: 42px; height: 42px; font-size: 1.25rem; }
+            .gallery-desc { transform: translateY(10%); }
         }
         html {
   scroll-behavior: smooth;
@@ -255,36 +362,37 @@ section {
     </header>
     <!-- Image Slider -->
     <div class="slider-container">
-        <button class="slider-btn left" onclick="prevSlide()">&#10094;</button>
+        <button class="slider-btn left" onclick="prevSlide()" aria-label="Previous slide">&#10094;</button>
         <img id="sliderImage" class="slider-image" src="picha/mt kenya trek.jpg" alt="Travel Slide">
-        <button class="slider-btn right" onclick="nextSlide()">&#10095;</button>
+        <button class="slider-btn right" onclick="nextSlide()" aria-label="Next slide">&#10095;</button>
+        <div class="slider-dots" id="sliderDots" aria-label="Slider controls"></div>
     </div>
 
     <!-- Gallery Grid -->
     <section class="gallery-grid">
         <div class="gallery-item">
-            <img src="picha/l naivasha.jpg" alt="Mountain Adventure">
+            <img src="picha/IMG-20250202-WA0017.jpg" alt="Mountain Adventure">
             <div class="gallery-desc">
                 <h3>Mountain Adventure</h3>
                 <p>Experience breathtaking views and thrilling hikes in the world's most stunning mountains.</p>
             </div>
         </div>
         <div class="gallery-item">
-            <img src="picha/WhatsApp Image 2025-06-01 at 19.25.51_78de5b1a.jpg" alt="Beach Paradise">
+            <img src="picha/WhatsApp Image 2025-06-01 at 19.31.32_68d8c4f7.jpg" alt="Beach Paradise">
             <div class="gallery-desc">
                 <h3>Beach Paradise</h3>
                 <p>Relax on golden sands and swim in crystal-clear waters at our top beach destinations.</p>
             </div>
         </div>
         <div class="gallery-item">
-            <img src="picha/city.jpg" alt="Cultural Exploration">
+            <img src="picha/IMG-20250202-WA0021.jpg" alt="Cultural Exploration">
             <div class="gallery-desc">
                 <h3>Cultural Exploration</h3>
                 <p>Discover rich cultures, historic landmarks, and vibrant traditions around the globe.</p>
             </div>
         </div>
         <div class="gallery-item">
-            <img src="picha/fort jesus.jpg" alt="Urban Escapes">
+            <img src="picha/nairobi city_edited-1.jpg" alt="Urban Escapes">
             <div class="gallery-desc">
                 <h3>Urban Escapes</h3>
                 <p>Explore bustling cities, modern architecture, and exciting nightlife experiences.</p>
@@ -292,40 +400,63 @@ section {
         </div>
     </section>
     <script>
-        // Simple slider logic
+        // Enhanced slider with fade transition and dots
         const sliderImages = [
-            "picha/l naivasha.jpg",
-            "picha/fort jesus.jpg",
-            "picha/city.jpg",
-            "picha/WhatsApp Image 2025-05-25 at 18.28.59_aa353080_edited-1.jpg",
+            "picha/IMG-20250202-WA0017.jpg",
+            "picha/WhatsApp Image 2025-06-01 at 19.31.32_68d8c4f7.jpg",
+            "picha/IMG-20250202-WA0021.jpg",
+            "picha/nairobi city_edited-1.jpg",
             "picha/WhatsApp Image 2025-05-25 at 18.29.00_b127ec23_edited-1.jpg",
-            "picha/WhatsApp Image 2025-06-01 at 19.25.50_8da188d5.jpg",
+            "picha/IMG-20250202-WA0022_edited-1.jpg",
             "picha/WhatsApp Image 2025-06-01 at 19.25.51_78de5b1a.jpg",
             "picha/WhatsApp Image 2025-06-01 at 19.25.51_be2fb0c8.jpg",
-            "picha/WhatsApp Image 2025-06-01 at 19.31.32_68d8c4f7.jpg"
+            "picha/WhatsApp Image 2025-06-01 at 19.25.51_be2fb0c8.jpg"
         ];
         let currentSlide = 0;
         const sliderImage = document.getElementById('sliderImage');
+        const sliderDots = document.getElementById('sliderDots');
+
+        function renderDots() {
+            sliderDots.innerHTML = '';
+            sliderImages.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'dot';
+                dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+                dot.addEventListener('click', () => showSlide(i));
+                sliderDots.appendChild(dot);
+            });
+        }
+
+        function setActiveDot() {
+            const dots = sliderDots.querySelectorAll('.dot');
+            dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+        }
 
         function showSlide(index) {
             if (index < 0) currentSlide = sliderImages.length - 1;
             else if (index >= sliderImages.length) currentSlide = 0;
             else currentSlide = index;
-            sliderImage.src = sliderImages[currentSlide];
+
+            sliderImage.style.opacity = 0;
+            const nextSrc = sliderImages[currentSlide];
+            const onLoaded = () => {
+                sliderImage.style.opacity = 1;
+                sliderImage.removeEventListener('load', onLoaded);
+            };
+            sliderImage.addEventListener('load', onLoaded);
+            sliderImage.src = nextSrc;
+            setActiveDot();
         }
 
-        function prevSlide() {
-            showSlide(currentSlide - 1);
-        }
+        function prevSlide() { showSlide(currentSlide - 1); }
+        function nextSlide() { showSlide(currentSlide + 1); }
 
-        function nextSlide() {
-            showSlide(currentSlide + 1);
-        }
+        // Init
+        renderDots();
+        showSlide(0);
 
         // Auto-slide
-        setInterval(() => {
-            nextSlide();
-        }, 4000);
+        setInterval(nextSlide, 4000);
     </script>
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-12">
